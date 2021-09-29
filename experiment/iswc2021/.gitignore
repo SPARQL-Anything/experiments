@@ -1,0 +1,11 @@
+/generated-data/
+/bin/
+/sparql-anything.jar
+/log/
+/10.json
+/100.json
+/1000.json
+/10000.json
+/100000.json
+/1000000.json
+sparql-anything-queries/
