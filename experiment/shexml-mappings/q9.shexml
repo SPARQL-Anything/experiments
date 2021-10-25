@@ -1,0 +1,28 @@
+PREFIX ex: <http://example.com/>
+SOURCE src <file:///Users/lgu/workspace/spice/CogComplexityAndPerformaceEvaluation/experiment/data/test.json>
+
+ITERATOR artwork <jsonpath: $[*]> {
+    FIELD id <Inventario>
+    FIELD autore <Autore>
+    FIELD datazione <Datazione>
+		FIELD ac <['Ambito culturale']>
+		FIELD ts <['Titolo-soggetto']>
+		FIELD m <Materiali>
+		FIELD i <Immagine>
+		FIELD rby <lsreferenceby>
+}
+
+EXPRESSION aw <src.artwork>
+
+AUTOINCREMENT ids <"id" + 0 >
+
+:Artworks _:[ids] {
+    ex:Inventario [aw.id] ;
+    ex:Datazione [aw.datazione] ;
+    ex:Autore [aw.autore] ;
+		ex:Ambito_Culturale [aw.ac] ;
+		ex:Titolo-soggetto [aw.ts] ;
+		ex:Materiali [aw.m] ;
+		ex:Immagine [aw.i] ;
+		ex:lsreferenceby [aw.rby]
+}

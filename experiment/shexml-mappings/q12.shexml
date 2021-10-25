@@ -1,0 +1,24 @@
+PREFIX ex: <http://example.com/>
+SOURCE src <file:///Users/lgu/workspace/spice/CogComplexityAndPerformaceEvaluation/experiment/data/COLLEZIONI_MAO.json>
+
+ITERATOR artwork <jsonpath: $[*]> {
+    FIELD autore <Autore>
+    FIELD datazione <Datazione>
+		FIELD titolo <Titolo>
+		FIELD tecnica <Tecnica>
+		FIELD immagine <Immagine>
+		FIELD dimensioni <Dimensioni>
+}
+
+EXPRESSION aw <src.artwork>
+
+AUTOINCREMENT ids <"id" + 0 >
+
+:Artworks _:[ids] {
+    ex:Autore [aw.autore] ;
+    ex:Datazione [aw.datazione] ;
+    ex:Titolo [aw.titolo] ;
+		ex:Tecnica [aw.tecnica] ;
+		ex:Immagine [aw.immagine] ;
+		ex:Dimensioni [aw.dimensioni] ;
+}
