@@ -1,0 +1,17 @@
+@prefix ex:    <http://example.com/> .
+
+[ ex:Autore      "GABINIO MARIO" ;
+  ex:Datazione   "19/10/1923" ;
+  ex:Dimensioni  "229X169" ;
+  ex:Immagine    <http://93.62.170.226/foto/gabinio/001B1.jpg> ;
+  ex:Tecnica     "STAMPA ALLA CELLOIDINA" ;
+  ex:Titolo      "TORINO/ MONUMENTO A CARLO ALBERTO, PIAZZA CARLO ALBERTO, VISTA LATERALE DESTRA"
+] .
+
+[ ex:Autore      "GABINIO MARIO" ;
+  ex:Datazione   "25/07/1924" ;
+  ex:Dimensioni  "230X170" ;
+  ex:Immagine    <http://93.62.170.226/foto/gabinio/001B2.jpg> ;
+  ex:Tecnica     "STAMPA ALLA CELLOIDINA" ;
+  ex:Titolo      "TORINO/ MONUMENTO A CARLO ALBERTO, PIAZZA CARLO ALBERTO, VISTA DI 3/4 POSTERIORE"
+] .
