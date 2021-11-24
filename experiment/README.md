@@ -106,8 +106,6 @@ _:0 ex:Autore "GABINIO MARIO";
   ex:Tecnica "STAMPA ALLA CELLOIDINA";
   ex:Titolo "TORINO/ MONUMENTO A CARLO ALBERTO, PIAZZA CARLO ALBERTO, VISTA LATERALE DESTRA" .
 ```
-
-<details><summary>SPARQL generate for source 1 (q10)</summary>
 	
 [SPARQL Generate query](sparql-generate-queries/q10.rqg) - [SPARQL Anything query](sparql-anything-queries/q10.rqg)  - [RML Mapping](rml-mappings/m2.ttl) - [ShExML Mapping](shexml-mappings/q10.shexml) 
 
