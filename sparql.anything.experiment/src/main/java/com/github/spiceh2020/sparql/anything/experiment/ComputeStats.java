@@ -41,8 +41,7 @@ public class ComputeStats {
 
 	public static void processFolder(String folder, String filename, int[] n, String extension) throws IOException {
 		System.out.println(folder);
-		System.out.println(
-				"\tCompetency Question\tNumber of Distinct Tokens\tNumber of Tokens");
+		System.out.println("\tCompetency Question\tNumber of Distinct Tokens\tNumber of Tokens");
 		for (int i = 0; i < n.length; i++) {
 			File f = new File(folder + "/" + filename + n[i] + "." + extension);
 			if (!f.getName().contains("_") && FilenameUtils.getExtension(f.getName()).equals(extension)) {
@@ -53,9 +52,12 @@ public class ComputeStats {
 	}
 
 	public static void main(String[] args) throws IOException {
-		String experimentFolder = args[0]+"/";
-		processFolder(experimentFolder + "sparql-anything-queries", "q", new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 }, "rqg");
-		processFolder(experimentFolder + "sparql-generate-queries", "q", new int[] { 1, 2, 3, 4, 5, 6, 7, 87, 9, 10, 11, 12 }, "rqg");
+		String experimentFolder = args[0] + "/";
+		processFolder(experimentFolder + "sparql-anything-queries", "q",
+				new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 }, "rqg");
+		processFolder(experimentFolder + "sparql-generate-queries", "q",
+				new int[] { 1, 2, 3, 4, 5, 6, 7, 87, 9, 10, 11, 12 }, "rqg");
 		processFolder(experimentFolder + "rml-mappings", "m", new int[] { 1, 2, 3, 4 }, "ttl");
+		processFolder(experimentFolder + "shexml-mappings", "q", new int[] { 9, 10, 11, 12 }, "shexml");
 	}
 }

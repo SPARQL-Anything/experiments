@@ -1,5 +1,5 @@
-SPARQL_ANYTHING_VERSION=0.0.5-SNAPSHOT
-SHEXML_JAR=ShExML-v0.2.6.jar
+SPARQL_ANYTHING_VERSION=0.4.1
+SHEXML_JAR=ShExML-v0.2.7.jar
 RML_JAR=rmlmapper.jar
 SPARQL_GENERATE_JAR=sparql-generate-2.0.9.jar
 #SPARQL_ANYTHING_VERSION=0.1.0-SNAPSHOT
@@ -7,12 +7,10 @@ if [[ ! -e "bin" ]]; then
 	echo "bin not exists"
 	mkdir bin
 	cd bin/
+	curl -OL https://github.com/spice-h2020/sparql.anything/releases/download/v$SPARQL_ANYTHING_VERSION/sparql-anything-$SPARQL_ANYTHING_VERSION.jar
 	curl -OL https://github.com/sparql-generate/sparql-generate/releases/download/2.0.9/sparql-generate-2.0.9.jar
 	curl -OL https://github.com/RMLio/rmlmapper-java/releases/download/v4.12.0/rmlmapper.jar
-	curl -OL https://github.com/herminiogg/ShExML/releases/download/v0.2.6/ShExML-v0.2.6.jar
-	#mvn -f ../../pom.xml clean install
-	#cp ../../sparql.anything.cli/target/sparql-anything-$SPARQL_ANYTHING_VERSION.jar .
-	curl -OL https://github.com/spice-h2020/sparql.anything/releases/download/v$SPARQL_ANYTHING_VERSION/sparql-anything-$SPARQL_ANYTHING_VERSION.jar
+	curl -OL https://github.com/herminiogg/ShExML/releases/download/v0.2.7/ShExML-v0.2.7.jar
 	cd ..
 fi
 if [[ ! -e "generated-data" ]]; then

@@ -1,5 +1,5 @@
 PREFIX ex: <http://example.com/>
-SOURCE src <file:///Users/lgu/workspace/spice/CogComplexityAndPerformaceEvaluation/experiment/data/COLLEZIONI_FONDO_GABINIO_MARZO_2017_r.json>
+SOURCE src <data/COLLEZIONI_FONDO_GABINIO_MARZO_2017_r.json>
 
 ITERATOR artwork <jsonpath: $[*]> {
     FIELD autore <Autore>

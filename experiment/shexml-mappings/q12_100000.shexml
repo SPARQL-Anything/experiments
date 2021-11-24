@@ -1,5 +1,5 @@
 PREFIX ex: <http://example.com/>
-SOURCE src <data/COLLEZIONI_FONDO_GABINIO_MARZO_2017.json>
+SOURCE src <100000.json>
 
 ITERATOR artwork <jsonpath: $[*]> {
     FIELD autore <Autore>
