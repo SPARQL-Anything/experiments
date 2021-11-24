@@ -4,9 +4,9 @@ We conducted a comparative evaluation of sparql.anything with respect to the sta
 
 ## Cognitive Complexity Comparison
 
-*Objective*: The objective of the experiment is to compare sparql.anything with [SPARQL generate](https://ci.mines-stetienne.fr/sparql-generate/) and [RML](https://rml.io/) frameworks in terms of usability and learnability of the frameworks. Specifically,  from the data sources of the SPICE project  we selected four non-RDF resources and for each resource we defined two kinds of tests: one aimed at assessing the usability and learnability of sparql.anything and [SPARQL generate](https://ci.mines-stetienne.fr/sparql-generate/) in retrieving data, the other meant at evaluating  the usability and learnability of three approaches   in generating data. 
+*Objective*: The objective of the experiment is to compare sparql.anything with [SPARQL generate](https://ci.mines-stetienne.fr/sparql-generate/), [RML](https://rml.io/) and [ShExML](http://shexml.herminiogarcia.com/)  frameworks in terms of usability and learnability of the frameworks. Specifically,  from the data sources of the SPICE project  we selected four non-RDF resources and for each resource we defined two kinds of tests: one aimed at assessing the usability and learnability of sparql.anything and [SPARQL generate](https://ci.mines-stetienne.fr/sparql-generate/) in retrieving data, the other meant at evaluating  the usability and learnability of four approaches   in generating data. 
 
-*Approach*: As far as retrieval tests is concerned, we inspected the resources in order to identify a set of possible competency questions a user may want to ask. Then, for each competency question we defined the corresponding query according to sparql.anything and [SPARQL generate](https://ci.mines-stetienne.fr/sparql-generate/) frameworks.
+*Approach*: As far as retrieval tests is concerned, we inspected the resources in order to identify a set of possible competency questions a user may want to ask. Then, for each competency question we defined the corresponding query according to SPARQL Anything and [SPARQL generate](https://ci.mines-stetienne.fr/sparql-generate/) frameworks.
 Concerning the generation tests, for each resource we defined a target RDF model for exporting the data and the rules needed for transforming the data according to each of the compared frameworks.
 
 *Results*: One effective measure of complexity is the number of distinct items or variables that need to be combined within a query or expression [(Halford et al. 2004)](https://www.tandfonline.com/doi/pdf/10.1080/13546780442000033?casa_token=4fEYMB3PswAAAAAA:wfaeKgz51sDOGKdq2KWDn38Iu-Pah0iGmXxMoG6SJIu1Zxv9PR7fcTuFLCdGTnNgiyh8YhamfjeZ). Such a measure of complexity has previously been used to explain difficulties in the comprehensibility of Description Logic statements [(Warren et al. 2015)](https://dl.acm.org/doi/abs/10.1145/2814864.2814866?casa_token=BLtmqOwo4ZUAAAAA:DYqfYy_tnY2GebHD2aG7NBDt2MjT6raKKBNJsrQj1HPofuFnVaykpETzu-PA-YPaShIUT1cUujU). 
@@ -15,7 +15,7 @@ The queries were tokenized (by using ``"(){},;{}\n\t\r `` as token delimiters) a
 
 
 
-![Number of Distinct Token per Query](/experiment/img/chart.png)![Number of Distinct Token per Query](/experiment/img/number_of_tokens.png)
+![Number of Distinct Token per Query](/experiment/img/number_of_tokens.png)![Number of Distinct Token per Query](/experiment/img/number_of_distinct_tokens.png)
 
 
 *Running the experiment*: The code implementing the tokenizer that has been used for the experiment can be found in the [sparql.anything.experiment module](/sparql.anything.experiment).
@@ -27,7 +27,7 @@ The experiment can be run with following command:
 
 
 ## Performance Comparison
-We assessed the performace of sparql.anything, [SPARQL generate](https://ci.mines-stetienne.fr/sparql-generate/) and [RML](https://rml.io/) frameworks in retrieving and generating RDF data.  All of the tests described below were run three times and the average time among the three executions is reported.
+We assessed the performace of sparql.anything, [SPARQL generate](https://ci.mines-stetienne.fr/sparql-generate/), [RML](https://rml.io/) and [ShExML](http://shexml.herminiogarcia.com/) frameworks in retrieving and generating RDF data.  All of the tests described below were run three times and the average time among the three executions is reported.
 The tests were executed on a MacBook Pro 2020 (CPU: i7 2.3 GHz, RAM: 32GB).
 
 ### Performace in retrieving RDF data
@@ -41,7 +41,7 @@ We also measured the performance in transforming input of increasing size.
 To do so, we  repeatedly concatenated the data sources in order to obtain a JSON array containing 1M JSON objects and we cut this array at length 10, 100, 1K, 10K and 100K.
 We ran the query/mapping q12 on these files and we measured the execution time which is shown in the following figure:
 
-![Execution time per  query](/experiment/img/execution_time_increasing_input.png)
+![Execution time per  query](/experiment/img/chart_log.png)
 
 
 All the perfomance comparisons can be run with the following command:
