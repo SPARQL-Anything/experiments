@@ -27,13 +27,15 @@ The experiment can be run with following command:
 
 
 ## Performance Comparison
-We assessed the performace of sparql.anything, [SPARQL generate](https://ci.mines-stetienne.fr/sparql-generate/), [RML](https://rml.io/) and [ShExML](http://shexml.herminiogarcia.com/) frameworks in retrieving and generating RDF data.  All of the tests described below were run three times and the average time among the three executions is reported.
+We assessed the performace of sparql.anything, [SPARQL generate](https://ci.mines-stetienne.fr/sparql-generate/), [RML](https://rml.io/) and [ShExML](http://shexml.herminiogarcia.com/) frameworks in retrieving and generating RDF data.  All of the tests described below were run three times and the average time among the three executions is reported. For practical reasons, for each test we set a 3 minutes timeout.
 The tests were executed on a MacBook Pro 2020 (CPU: i7 2.3 GHz, RAM: 32GB).
 
 ### Performace in retrieving RDF data
 The following Figure shows the time needed for evaluating the SELECT queries q1-q8 and for generating the RDF triples according to the CONSTRUCT queries/mapping rules q9-q12.
 
 ![Execution time per  query](/experiment/img/execution_time_queries.png)
+
+ShExML implementation exceeded the timeout for q9-q12.
 
 ### Performance in generating RDF data
 
@@ -43,6 +45,7 @@ We ran the query/mapping q12 on these files and we measured the execution time w
 
 ![Execution time per  query](/experiment/img/chart_log.png)
 
+ShExML implementation exceeded the timeout for input greater than 1K.
 
 All the perfomance comparisons can be run with the following command:
 
