@@ -46,7 +46,7 @@ function monitor-query {
 
         t0=$(gdate +%s%3N)
         #java $memory -jar $SPARQL_ANYTHING_JAR -q $QUERY_FILE > /dev/null &
-        ERR=$(java $memory -jar $SPARQL_ANYTHING_JAR -q $QUERY_FILE 2>&1 > /dev/null &)
+        java $memory -jar $SPARQL_ANYTHING_JAR -q $QUERY_FILE 2>ERR_FILE > /dev/null &
         MPID=$!
         #errcho "Monitoring $MPID"
         #Timeout??
@@ -58,6 +58,7 @@ function monitor-query {
   	   	t1=$(gdate +%s%3N)
         echo -e -n $MEM_RECORDS >> $MEM_FILE
         #echo $ERR
+        cat ERR_FILE > $ERR
         if [[ "$ERR" == *"Error"* ]]; then
           STATUS="Error"
         else
@@ -84,13 +85,11 @@ function monitor-query {
 }
 monitor-query 1 "q1" "strategy1" "no_slice"
 monitor-query 10 "q1" "strategy1" "no_slice"
-
-
-exit
+#exit
 
 for size in $2
 do
-  for query in {1..2}
+  for query in {1..18}
   do
     echo "Monitoring q$query strategy0 no_slice size $size"
     monitor-query $size "q$query" "strategy0" "no_slice"
