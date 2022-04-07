@@ -2,7 +2,7 @@ PREFIX fx:  <http://sparql.xyz/facade-x/ns/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX xyz: <http://sparql.xyz/facade-x/data/>
 SELECT ?stop ?stopDescription ?wheelchairAccesible ?stopLat ?stopLon ?location  WHERE {
-	SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/STOPS.csv,csv.headers=true,slice=%slice,strategy=%strategy> {
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOPS.%format,%param,slice=%slice,strategy=%strategy> {
 
 		?s xyz:stop_code ?stop_url .
 		OPTIONAL { ?s xyz:stop_desc ?stopDescription . }

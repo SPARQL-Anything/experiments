@@ -23,10 +23,11 @@ function monitor-query {
   STRATEGY=$3
   SLICE=$4
   QUERY=$2
-  QUERY_FILE=$2-${STRATEGY}-${SLICE}.sparql
+  FORMAT=$5
+  QUERY_FILE=$2-${FORMAT}-${STRATEGY}-${SLICE}.sparql
 
-  MEM_FILE="$RESULTS_DIR/mem_$QUERY"
-  TIME_FILE="$RESULTS_DIR/time_$QUERY"
+  MEM_FILE="$RESULTS_DIR/mem_${QUERY}_${FORMAT}"
+  TIME_FILE="$RESULTS_DIR/time_${QUERY}_${FORMAT}"
 
   if [[ ! -f $MEM_FILE ]]; then
     echo -e "Query InputSize Strategy Slice MemoryLimit Run PID %cpu %mem vsz rss" >> $MEM_FILE
@@ -40,7 +41,7 @@ function monitor-query {
 
   	for i in 1 2 3
   	do
-        echo "$QUERY LIMIT $memory mb - $STRATEGY - $SLICE - SIZE $1 - RUN $i "
+        echo "$QUERY LIMIT $memory mb - $STRATEGY - $SLICE - SIZE $1 - RUN $i - FORMAT $FORMAT "
         #echo "Start Test $1 $memory $i " >> $MEM_FILE
         MEM_RECORDS=""
 
@@ -83,8 +84,9 @@ function monitor-query {
   cd ..
 
 }
-monitor-query 10 "q1" "strategy1" "no_slice"
-monitor-query 1 "q1" "strategy1" "no_slice"
+#monitor-query 10 "q1" "strategy1" "no_slice"
+#monitor-query 1 "q1" "strategy1" "no_slice" "csv"
+monitor-query 1 "q1" "strategy1" "no_slice" "json"
 exit
 
 for size in $2

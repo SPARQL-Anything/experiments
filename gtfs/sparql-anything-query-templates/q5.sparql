@@ -4,7 +4,7 @@ PREFIX xyz: <http://sparql.xyz/facade-x/data/>
 
 SELECT ?service ?serviceRule ?date WHERE {
 
-    SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/CALENDAR_DATES.csv,csv.headers=true,slice=%slice,strategy=%strategy> {
+    SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/CALENDAR_DATES.%format,%param,slice=%slice,strategy=%strategy> {
 
       [] xyz:service_id ?service_id ;
         xyz:date ?dateex ;

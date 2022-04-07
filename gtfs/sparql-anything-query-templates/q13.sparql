@@ -4,7 +4,7 @@ PREFIX xyz: <http://sparql.xyz/facade-x/data/>
 SELECT ?stop ?parStation ?accName ?name WHERE {
 
   # stops
-	SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/STOPS.csv,csv.headers=true,slice=%slice,strategy=%strategy> {
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOPS.%format,%param,slice=%slice,strategy=%strategy> {
     ?stopContainer xyz:stop_id ?stop_id .
     ?stopContainer xyz:parent_station ?parent_station .
 

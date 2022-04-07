@@ -3,7 +3,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX xyz: <http://sparql.xyz/facade-x/data/>
 SELECT ?route ?routeShortName ?routeDescription ?trip ?tripShortName ?service ?stopTime ?stop ?stopDescription ?serviceRule  WHERE {
 
-	SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/ROUTES.csv,csv.headers=true,slice=%slice,strategy=%strategy> {
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/ROUTES.%format,%param,slice=%slice,strategy=%strategy> {
     ?routeContainer xyz:route_id ?route_id .
     BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/routes/", ?route_id ) AS ?route ) .
     OPTIONAL { ?routeContainer xyz:route_short_name ?routeShortName . }
@@ -11,7 +11,7 @@ SELECT ?route ?routeShortName ?routeDescription ?trip ?tripShortName ?service ?s
 	}
 
   # trips
-  SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/TRIPS.csv,csv.headers=true,slice=%slice,strategy=%strategy> {
+  SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/TRIPS.%format,%param,slice=%slice,strategy=%strategy> {
     ?t xyz:route_id ?route_id .
     ?t xyz:trip_id ?trip_id .
     BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/trips/", ?trip_id ) AS ?trip ) .
@@ -21,7 +21,7 @@ SELECT ?route ?routeShortName ?routeDescription ?trip ?tripShortName ?service ?s
   }
 
   # stoptimes
-  SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/STOP_TIMES.csv,csv.headers=true,slice=%slice,strategy=%strategy> {
+  SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOP_TIMES.%format,%param,slice=%slice,strategy=%strategy> {
     ?stoptime xyz:trip_id ?trip_id .
     ?stoptime xyz:stop_id ?stop_id .
     ?stoptime  xyz:arrival_time ?arrival_time .
@@ -29,7 +29,7 @@ SELECT ?route ?routeShortName ?routeDescription ?trip ?tripShortName ?service ?s
   }
 
   # stops
-	SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/STOPS.csv,csv.headers=true,slice=%slice,strategy=%strategy> {
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOPS.%format,%param,slice=%slice,strategy=%strategy> {
     ?stopContainer xyz:stop_id ?stop_id .
     BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/stops/", ?stop_id ) AS ?stop )
     OPTIONAL { ?stopContainer xyz:stop_desc ?stopDescription . }
@@ -37,13 +37,13 @@ SELECT ?route ?routeShortName ?routeDescription ?trip ?tripShortName ?service ?s
 
   {
     # services1, calendar_rules
-    SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/CALENDAR.csv,csv.headers=true,slice=%slice,strategy=%strategy> {
+    SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/CALENDAR.%format,%param,slice=%slice,strategy=%strategy> {
       [] xyz:service_id ?service_id .
       BIND( fx:entity("http://transport.linkeddata.es/madrid/metro/calendar_rules/", ?service_id ) AS ?serviceRule ) .
     }
   } UNION {
     # service2, calendar_date_rules
-    SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/CALENDAR_DATES.csv,csv.headers=true,slice=%slice,strategy=%strategy> {
+    SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/CALENDAR_DATES.%format,%param,slice=%slice,strategy=%strategy> {
       [] xyz:service_id ?service_id ; xyz:date ?date .
       BIND( fx:entity("http://transport.linkeddata.es/madrid/metro/calendar_date_rule/", ?service_id, "-", ?date ) AS ?serviceRule ) .
     }

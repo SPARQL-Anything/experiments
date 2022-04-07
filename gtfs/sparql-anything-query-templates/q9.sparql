@@ -4,7 +4,7 @@ PREFIX xyz: <http://sparql.xyz/facade-x/data/>
 SELECT ?trip ?tripShortName ?service ?route ?shape ?shapePoint ?lat WHERE {
 
   # trips
-  SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/TRIPS.csv,csv.headers=true,slice=%slice,strategy=%strategy> {
+  SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/TRIPS.%format,%param,slice=%slice,strategy=%strategy> {
     ?tripContainer xyz:trip_id ?trip_id .
     ?tripContainer xyz:service_id ?service_id .
     ?tripContainer xyz:route_id ?route_id .
@@ -17,7 +17,7 @@ SELECT ?trip ?tripShortName ?service ?route ?shape ?shapePoint ?lat WHERE {
   }
 
   # shapes, shapes_points
-	SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/SHAPES.csv,csv.headers=true,slice=%slice,strategy=%strategy> {
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/SHAPES.%format,%param,slice=%slice,strategy=%strategy> {
     ?shapeContainer xyz:shape_id ?shape_id .
     ?shapeContainer xyz:shape_pt_sequence ?shape_pt_sequence .
     ?shapeContainer xyz:shape_pt_lat ?shape_pt_lat .

@@ -4,13 +4,13 @@ PREFIX xyz: <http://sparql.xyz/facade-x/data/>
 
 SELECT ?routeName ?routeType ?trip ?startTime ?endTime WHERE {
 
-    SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/TRIPS.csv,csv.headers=true,slice=%slice,strategy=%strategy> {
+    SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/TRIPS.%format,%param,slice=%slice,strategy=%strategy> {
       ?tripContainer xyz:trip_id ?trip_id .
       BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/trips/", ?trip_id ) AS ?trip ) .
       ?tripContainer xyz:route_id ?route_id .
     }
 
-    SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/ROUTES.csv,csv.headers=true,slice=%slice,strategy=%strategy> {
+    SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/ROUTES.%format,%param,slice=%slice,strategy=%strategy> {
       ?routeContainer xyz:route_id ?route_id .
       ?routeContainer xyz:route_short_name ?routeName  .
       ?routeContainer xyz:route_type ?route_type .
@@ -18,7 +18,7 @@ SELECT ?routeName ?routeType ?trip ?startTime ?endTime WHERE {
     }
 
 
-    SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/FREQUENCIES.csv,csv.headers=true,slice=%slice,strategy=%strategy> {
+    SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/FREQUENCIES.%format,%param,slice=%slice,strategy=%strategy> {
       ?frequenciesContainer xyz:trip_id ?trip_id .
       ?frequenciesContainer xyz:start_time ?startTime .
       ?frequenciesContainer xyz:end_time ?endTime .

@@ -8,13 +8,8 @@ PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
 
 SELECT DISTINCT ?stop ?p ?str WHERE {
 
-# stoptimes
-#SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/STOP_TIMES.csv,csv.headers=true> {
-  #?stopTimesContainer xyz:stop_id ?stop_id
-#}
-
   # stops
-  SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/STOPS.csv,csv.headers=true,slice=%slice,strategy=%strategy> {
+  SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOPS.%format,%param,slice=%slice,strategy=%strategy> {
 
         ?stopContainer ?key ?str .
         ?stopContainer xyz:stop_id ?stop_id .

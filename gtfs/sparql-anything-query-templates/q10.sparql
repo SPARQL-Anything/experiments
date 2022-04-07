@@ -4,13 +4,13 @@ PREFIX xyz: <http://sparql.xyz/facade-x/data/>
 SELECT (count(distinct ?trip) as ?count)  WHERE {
 
   # trips
-  SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/TRIPS.csv,csv.headers=true,slice=%slice,strategy=%strategy> {
+  SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/TRIPS.%format,%param,slice=%slice,strategy=%strategy> {
     ?tripContainer xyz:trip_id ?trip_id .
     BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/trips/", ?trip_id ) AS ?trip ) .
   }
 
   # stoptimes
-  SERVICE <x-sparql-anything:location=../result/datasets/csv/%size/STOP_TIMES.csv,csv.headers=true,slice=%slice,strategy=%strategy> {
+  SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOP_TIMES.%format,%param,slice=%slice,strategy=%strategy> {
     ?stoptime xyz:trip_id ?trip_id .
     ?stoptime xyz:departure_time ?departure_time .
     BIND ( fx:literal( ?departure_time, xsd:duration) AS ?departureTime ) .
