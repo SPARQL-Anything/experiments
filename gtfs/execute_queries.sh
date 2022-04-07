@@ -30,7 +30,7 @@ function monitor-query {
 
   if [[ ! -f $MEM_FILE ]]; then
     echo -e "Query InputSize Strategy Slice MemoryLimit Run PID %cpu %mem vsz rss" >> $MEM_FILE
-    echo -e "Query\tInputSize\tStrategy\tSlice\tMemoryLimit\tRun\tTime\tUnit" >> $TIME_FILE
+    echo -e "Query\tInputSize\tStrategy\tSlice\tMemoryLimit\tRun\tTime\tUnit\tStatus\tSTDErr" >> $TIME_FILE
   fi
 
   for mm in "${mem[@]}"
@@ -43,8 +43,10 @@ function monitor-query {
         echo "$QUERY LIMIT $memory mb - $STRATEGY - $SLICE - SIZE $1 - RUN $i "
         #echo "Start Test $1 $memory $i " >> $MEM_FILE
         MEM_RECORDS=""
+
         t0=$(gdate +%s%3N)
-        java $memory -jar $SPARQL_ANYTHING_JAR -q $QUERY_FILE > /dev/null &
+        #java $memory -jar $SPARQL_ANYTHING_JAR -q $QUERY_FILE > /dev/null &
+        ERR=$(java $memory -jar $SPARQL_ANYTHING_JAR -q $QUERY_FILE 2>&1 > /dev/null &)
         MPID=$!
         #errcho "Monitoring $MPID"
         #Timeout??
@@ -55,8 +57,15 @@ function monitor-query {
         done
   	   	t1=$(gdate +%s%3N)
         echo -e -n $MEM_RECORDS >> $MEM_FILE
+        #echo $ERR
+        if [[ "$ERR" == *"Error"* ]]; then
+          STATUS="Error"
+        else
+          STATUS="OK"
+        fi
+
   	   	total=$(($total+$t1-$t0))
-        TIME_RUN="$QUERY\t$1\t$STRATEGY\t$SLICE\t$mm\tRUN$i\t$(($t1-$t0))\tms"
+        TIME_RUN="$QUERY\t$1\t$STRATEGY\t$SLICE\t$mm\tRUN$i\t$(($t1-$t0))\tms\t$STATUS\t$ERR"
   	   	echo -e $TIME_RUN >> $TIME_FILE
         echo -e $TIME_RUN
         #echo -e "\n\n" >> $MEM_FILE
@@ -73,8 +82,11 @@ function monitor-query {
   cd ..
 
 }
+monitor-query 1 "q1" "strategy1" "no_slice"
+monitor-query 10 "q1" "strategy1" "no_slice"
 
-# monitor-query q1.sparql
+
+exit
 
 for size in $2
 do
