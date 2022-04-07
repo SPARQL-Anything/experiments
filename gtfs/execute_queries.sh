@@ -58,15 +58,14 @@ function monitor-query {
   	   	t1=$(gdate +%s%3N)
         echo -e -n $MEM_RECORDS >> $MEM_FILE
         #echo $ERR
-        cat ERR_FILE > $ERR
-        if [[ "$ERR" == *"Error"* ]]; then
+        if [[ "$(cat ERR_FILE)" == *"Error"* ]]; then
           STATUS="Error"
         else
           STATUS="OK"
         fi
 
   	   	total=$(($total+$t1-$t0))
-        TIME_RUN="$QUERY\t$1\t$STRATEGY\t$SLICE\t$mm\tRUN$i\t$(($t1-$t0))\tms\t$STATUS\t$ERR"
+        TIME_RUN="$QUERY\t$1\t$STRATEGY\t$SLICE\t$mm\tRUN$i\t$(($t1-$t0))\tms\t$STATUS\t$(cat ERR_FILE)"
   	   	echo -e $TIME_RUN >> $TIME_FILE
         echo -e $TIME_RUN
         #echo -e "\n\n" >> $MEM_FILE
@@ -75,6 +74,7 @@ function monitor-query {
     AVG="$QUERY\t$1\t$STRATEGY\t$SLICE\t$mm\tAVERAGE\t$(($total/3))\tms"
     echo -e $AVG >> $TIME_FILE
     echo -e $AVG
+    rm ERR_FILE
   done
 
   sed 's/ \{1,\}/\t/g' $MEM_FILE > $MEM_FILE~
@@ -83,9 +83,9 @@ function monitor-query {
   cd ..
 
 }
-monitor-query 1 "q1" "strategy1" "no_slice"
 monitor-query 10 "q1" "strategy1" "no_slice"
-#exit
+monitor-query 1 "q1" "strategy1" "no_slice"
+exit
 
 for size in $2
 do
