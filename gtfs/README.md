@@ -35,6 +35,6 @@ At the moment only csv, json and xml formats are allowed.
 
 ```
 
-./execute_queries.sh sparql-anything-0.6.0.jar "1 10 100"
+./execute_queries.sh sparql-anything-0.6.0.jar "1 10 100" "csv json"
 
 ```

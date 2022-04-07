@@ -86,23 +86,28 @@ function monitor-query {
 }
 #monitor-query 10 "q1" "strategy1" "no_slice"
 #monitor-query 1 "q1" "strategy1" "no_slice" "csv"
-monitor-query 1 "q1" "strategy1" "no_slice" "json"
-exit
+#monitor-query 1 "q1" "strategy1" "no_slice" "json"
+#exit
 
-for size in $2
+for format in $3
 do
-  for query in {1..18}
+  for size in $2
   do
-    echo "Monitoring q$query strategy0 no_slice size $size"
-    monitor-query $size "q$query" "strategy0" "no_slice"
-    echo "Monitoring q$query strategy1 no_slice size $size"
-    monitor-query $size "q$query" "strategy1" "no_slice"
-    echo "Monitoring q$query strategy0 slice size $size"
-    monitor-query $size "q$query" "strategy0" "slice"
-    echo "Monitoring q$query strategy1 slice size $size"
-    monitor-query $size "q$query" "strategy1" "slice"
+    for query in {1..18}
+    do
+      echo "Monitoring q$query strategy0 no_slice size $size $format"
+      monitor-query $size "q$query" "strategy0" "no_slice" $format
+      echo "Monitoring q$query strategy1 no_slice size $size $format"
+      monitor-query $size "q$query" "strategy1" "no_slice" $format
+      echo "Monitoring q$query strategy0 slice size $size $format"
+      monitor-query $size "q$query" "strategy0" "slice" $format
+      echo "Monitoring q$query strategy1 slice size $size $format"
+      monitor-query $size "q$query" "strategy1" "slice" $format
+    done
   done
 done
+
+
 
 
 
