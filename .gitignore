@@ -3,7 +3,8 @@
 .project
 .classpath
 target/
-gtfs/1
+gtfs/1*
+gtfs/measures
 gtfs/apache-jena-fuseki-4.4.0
 gtfs/result
 gtfs/rmlMapper

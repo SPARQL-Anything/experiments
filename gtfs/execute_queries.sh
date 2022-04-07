@@ -1,7 +1,6 @@
 #!/bin/bash
-
-SPARQL_ANYTHING_JAR=/Users/lgu/workspace/spice/sparql.anything/sparql-anything-cli/target/sparql-anything-0.7.0-SNAPSHOT.jar
-SPARQL_ANYTHING_QUERY_FOLDER=/Users/lgu/workspace/spice/CogComplexityAndPerformaceEvaluation/gtfs/1
+#/Users/lgu/workspace/spice/sparql.anything/sparql-anything-cli/target/sparql-anything-0.7.0-SNAPSHOT.jar
+SPARQL_ANYTHING_JAR=$1
 RESULTS_DIR=$(pwd)/measures
 
 if [ ! -d $RESULTS_DIR ]; then
@@ -20,10 +19,19 @@ function errcho {
 
 function monitor-query {
 
-  cd $SPARQL_ANYTHING_QUERY_FOLDER
+  cd $1
+  STRATEGY=$3
+  SLICE=$4
+  QUERY=$2
+  QUERY_FILE=$2-${STRATEGY}-${SLICE}.sparql
 
-  MEM_FILE="$RESULTS_DIR/mem_$1"
-  TIME_FILE="$RESULTS_DIR/time_$1"
+  MEM_FILE="$RESULTS_DIR/mem_$QUERY"
+  TIME_FILE="$RESULTS_DIR/time_$QUERY"
+
+  if [[ ! -f $MEM_FILE ]]; then
+    echo -e "Query InputSize Strategy Slice MemoryLimit Run PID %cpu %mem vsz rss" >> $MEM_FILE
+    echo -e "Query\tInputSize\tStrategy\tSlice\tMemoryLimit\tRun\tTime\tUnit" >> $TIME_FILE
+  fi
 
   for mm in "${mem[@]}"
   do
@@ -32,26 +40,29 @@ function monitor-query {
 
   	for i in 1 2 3
   	do
-        echo "$1 LIMIT $memory RUN $i"
+        echo "$QUERY LIMIT $memory mb - $STRATEGY - $SLICE - SIZE $1 - RUN $i "
         #echo "Start Test $1 $memory $i " >> $MEM_FILE
+        MEM_RECORDS=""
         t0=$(gdate +%s%3N)
-        java $memory -jar $SPARQL_ANYTHING_JAR -q $1 > /dev/null &
+        java $memory -jar $SPARQL_ANYTHING_JAR -q $QUERY_FILE > /dev/null &
         MPID=$!
         #errcho "Monitoring $MPID"
         #Timeout??
         while kill -0 $MPID 2> /dev/null;  do
-          echo -e "$1 $mm RUN$i $(ps -p $MPID -o pid,%cpu,%mem,vsz,rss|sed 1d)" >> $MEM_FILE
+          MEM_RECORDS+="$QUERY $1 $STRATEGY $SLICE $mm RUN$i $(ps -p $MPID -o pid,%cpu,%mem,vsz,rss|sed 1d)\n"
+          #echo -e "$QUERY $1 $STRATEGY $SLICE $mm RUN$i $(ps -p $MPID -o pid,%cpu,%mem,vsz,rss|sed 1d)" >> $MEM_FILE
           sleep 0.1
         done
   	   	t1=$(gdate +%s%3N)
+        echo -e -n $MEM_RECORDS >> $MEM_FILE
   	   	total=$(($total+$t1-$t0))
-        TIME_RUN="$1\t$mm\tRUN$i\t$(($t1-$t0))\tms"
+        TIME_RUN="$QUERY\t$1\t$STRATEGY\t$SLICE\t$mm\tRUN$i\t$(($t1-$t0))\tms"
   	   	echo -e $TIME_RUN >> $TIME_FILE
         echo -e $TIME_RUN
         #echo -e "\n\n" >> $MEM_FILE
         sleep 1
   	done
-    AVG="$1\t$mm\tAVERAGE\t$(($total/3))\tms"
+    AVG="$QUERY\t$1\t$STRATEGY\t$SLICE\t$mm\tAVERAGE\t$(($total/3))\tms"
     echo -e $AVG >> $TIME_FILE
     echo -e $AVG
   done
@@ -59,10 +70,29 @@ function monitor-query {
   sed 's/ \{1,\}/\t/g' $MEM_FILE > $MEM_FILE~
   rm $MEM_FILE
   mv $MEM_FILE~ $MEM_FILE
+  cd ..
 
 }
 
-monitor-query q1.sparql
+# monitor-query q1.sparql
+
+for size in $2
+do
+  for query in {1..2}
+  do
+    echo "Monitoring q$query strategy0 no_slice size $size"
+    monitor-query $size "q$query" "strategy0" "no_slice"
+    echo "Monitoring q$query strategy1 no_slice size $size"
+    monitor-query $size "q$query" "strategy1" "no_slice"
+    echo "Monitoring q$query strategy0 slice size $size"
+    monitor-query $size "q$query" "strategy0" "slice"
+    echo "Monitoring q$query strategy1 slice size $size"
+    monitor-query $size "q$query" "strategy1" "slice"
+  done
+done
+
+
+
 
 #cd $SPARQL_ANYTHING_QUERY_FOLDER
 
