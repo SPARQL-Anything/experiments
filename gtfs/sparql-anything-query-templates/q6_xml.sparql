@@ -1,0 +1,12 @@
+PREFIX fx:  <http://sparql.xyz/facade-x/ns/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX xyz: <http://sparql.xyz/facade-x/data/>
+PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT (count(?route_url) as ?nRoutes) WHERE {
+		SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/ROUTES.%format,%param,slice=%slice,strategy=%strategy> {
+			?r fx:anySlot [ a xyz:route_url ; rdf:_1 ?route_url ] .
+			?r fx:anySlot [ a xyz:agency_id ; rdf:_1 ?agency_id ] .
+			FILTER (?agency_id="00000000000000000005")
+		}
+}

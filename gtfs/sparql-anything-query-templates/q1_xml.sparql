@@ -1,0 +1,21 @@
+PREFIX fx:  <http://sparql.xyz/facade-x/ns/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX xyz: <http://sparql.xyz/facade-x/data/>
+PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?shape ?shapePoint ?shape_pt_lat ?shape_pt_lon ?shape_pt_sequence WHERE {
+
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/SHAPES.%format,%param,slice=%slice,strategy=%strategy> {
+
+		?shapeContainer
+			fx:anySlot [ a xyz:shape_id ; rdf:_1 ?shape_id ] ;
+			fx:anySlot [ a xyz:shape_pt_sequence ; rdf:_1 ?shape_pt_sequence ] ;
+			fx:anySlot [ a xyz:shape_pt_lat ; rdf:_1 ?shape_pt_lat_in ] ;
+			fx:anySlot [ a xyz:shape_pt_lon ; rdf:_1 ?shape_pt_lon_in ] .
+
+		BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/shape/", ?shape_id ) AS ?shape ) .
+		BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/shape_point/", ?shape_id ,"-", ?shape_pt_sequence ) AS ?shapePoint )
+		BIND ( xsd:double(?shape_pt_lat_in) AS ?shape_pt_lat ) .
+		BIND ( xsd:double(?shape_pt_lon_in) AS ?shape_pt_lon ) .
+	}
+}

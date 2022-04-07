@@ -1,0 +1,24 @@
+PREFIX fx:  <http://sparql.xyz/facade-x/ns/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX xyz: <http://sparql.xyz/facade-x/data/>
+PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?route ?routeShortName ?routeLongName ?routeDescription ?agency ?agencyName ?agencyPhone WHERE {
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/ROUTES.%format,%param,slice=%slice,strategy=%strategy> {
+    ?r fx:anySlot [ a xyz:route_url ;  rdf:_1 ?route_url ] .
+	  BIND ( fx:entity( ?route_url ) AS ?route ) .
+    OPTIONAL { ?r fx:anySlot [ a xyz:route_short_name ; rdf:_1 ?routeShortName  . ] }
+    OPTIONAL { ?r fx:anySlot [ a xyz:route_long_name ; rdf:_1 ?routeLongName  .] }
+    OPTIONAL { ?r fx:anySlot [ a xyz:route_desc ; rdf:_1 ?routeDescription  .]}
+    ?r fx:anySlot [ a xyz:agency_id ; rdf:_1 ?agency_id .]
+	}
+
+  SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/AGENCY.%format,%param,slice=%slice,strategy=%strategy> {
+    ?a fx:anySlot [ a  xyz:agency_id ; rdf_1 ?agency_id ;]
+      fx:anySlot [ a xyz:agency_url ; rdf:_1 ?agency_url ;]
+      fx:anySlot [ a xyz:agency_name ; rdf:_1 ?agencyName ; ]
+      OPTIONAL { ?a fx:anySlot [ a xyz:agency_phone ; rdf:_1 ?agencyPhone . ] }
+    BIND (fx:entity (?agency_url) AS ?agency ) .
+  }
+
+}
