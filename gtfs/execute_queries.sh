@@ -26,8 +26,8 @@ function monitor-query {
   FORMAT=$5
   QUERY_FILE=$2-${FORMAT}-${STRATEGY}-${SLICE}.sparql
 
-  MEM_FILE="$RESULTS_DIR/mem_${QUERY}_${FORMAT}"
-  TIME_FILE="$RESULTS_DIR/time_${QUERY}_${FORMAT}"
+  MEM_FILE="$RESULTS_DIR/mem_${QUERY}_${FORMAT}.tsv"
+  TIME_FILE="$RESULTS_DIR/time_${QUERY}_${FORMAT}.tsv"
 
   if [[ ! -f $MEM_FILE ]]; then
     echo -e "Query InputSize Strategy Slice MemoryLimit Run PID %cpu %mem vsz rss" >> $MEM_FILE
