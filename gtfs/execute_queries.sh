@@ -41,21 +41,33 @@ function monitor-query {
 
   	for i in 1 2 3
   	do
-        echo "$QUERY LIMIT $memory mb - $STRATEGY - $SLICE - SIZE $1 - RUN $i - FORMAT $FORMAT "
+        echo "$(date)$QUERY LIMIT $memory mb - $STRATEGY - $SLICE - SIZE $1 - RUN $i - FORMAT $FORMAT "
         #echo "Start Test $1 $memory $i " >> $MEM_FILE
         MEM_RECORDS=""
 
+        if [[ -f ERR_FILE ]]; then
+          rm ERR_FILE
+        fi
+
         t0=$(gdate +%s%3N)
         #java $memory -jar $SPARQL_ANYTHING_JAR -q $QUERY_FILE > /dev/null &
-        java $memory -jar $SPARQL_ANYTHING_JAR -q $QUERY_FILE 2>ERR_FILE > /dev/null &
+
+        CNT=0
+        java $memory -jar $SPARQL_ANYTHING_JAR -q $QUERY_FILE 2>>ERR_FILE > /dev/null &
         MPID=$!
-        #errcho "Monitoring $MPID"
-        #Timeout??
         while kill -0 $MPID 2> /dev/null;  do
           MEM_RECORDS+="$QUERY $1 $STRATEGY $SLICE $mm RUN$i $(ps -p $MPID -o pid,%cpu,%mem,vsz,rss|sed 1d)\n"
           #echo -e "$QUERY $1 $STRATEGY $SLICE $mm RUN$i $(ps -p $MPID -o pid,%cpu,%mem,vsz,rss|sed 1d)" >> $MEM_FILE
-          sleep 0.1
+          CNT=$((CNT+1))
+          if [[ "$CNT" -eq 1500 ]]; then
+            echo "Error: Timeout 300s" >> ERR_FILE
+            echo "Error: Timeout 300s"
+            kill $MPID 2> /dev/null
+            break
+          fi
+          sleep 0.2
         done
+
   	   	t1=$(gdate +%s%3N)
         echo -e -n $MEM_RECORDS >> $MEM_FILE
         #echo $ERR
@@ -70,12 +82,13 @@ function monitor-query {
   	   	echo -e $TIME_RUN >> $TIME_FILE
         echo -e $TIME_RUN
         #echo -e "\n\n" >> $MEM_FILE
+
         sleep 1
   	done
     AVG="$QUERY\t$1\t$STRATEGY\t$SLICE\t$mm\tAVERAGE\t$(($total/3))\tms"
     echo -e $AVG >> $TIME_FILE
     echo -e $AVG
-    rm ERR_FILE
+
   done
 
   sed 's/ \{1,\}/\t/g' $MEM_FILE > $MEM_FILE~
@@ -86,7 +99,7 @@ function monitor-query {
 }
 #monitor-query 10 "q1" "strategy1" "no_slice"
 #monitor-query 1 "q1" "strategy1" "no_slice" "csv"
-#monitor-query 1 "q1" "strategy1" "no_slice" "json"
+#monitor-query 100 "q8" "strategy0" "slice" "csv"
 #exit
 
 for format in $3
