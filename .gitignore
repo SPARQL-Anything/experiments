@@ -4,7 +4,7 @@
 .classpath
 target/
 gtfs/1*
-gtfs/measures
+gtfs/measures*
 gtfs/apache-jena-fuseki-4.4.0
 gtfs/result
 gtfs/rmlMapper
@@ -12,3 +12,5 @@ gtfs/apache-jena-fuseki-4.4.0.tar.gz
 gtfs/result.tar.xz
 gtfs/test.sh
 gtfs/generate_rdf_files.sh
+gtfs/.idea/
+gtfs/aggr*

@@ -10,7 +10,7 @@ else
 fi
 
 
-declare -a mem=("256" "512" "1024" "4096")
+declare -a mem=( "4096" "1024" "512" "256" )
 
 
 function errcho {
@@ -39,9 +39,11 @@ function monitor-query {
     memory="-Xmx${mm}m"
     total=0
 
+    RUN_CNT=0
+
   	for i in 1 2 3
   	do
-        echo "$(date)$QUERY LIMIT $memory mb - $STRATEGY - $SLICE - SIZE $1 - RUN $i - FORMAT $FORMAT "
+        echo "$(date): $QUERY LIMIT $memory mb - $STRATEGY - $SLICE - SIZE $1 - RUN $i - FORMAT $FORMAT "
         #echo "Start Test $1 $memory $i " >> $MEM_FILE
         MEM_RECORDS=""
 
@@ -69,6 +71,7 @@ function monitor-query {
         done
 
   	   	t1=$(gdate +%s%3N)
+        RUN_CNT=$((RUN_CNT+1))
         echo -e -n $MEM_RECORDS >> $MEM_FILE
         #echo $ERR
         if [[ "$(cat ERR_FILE)" == *"Error"* ]]; then
@@ -77,15 +80,33 @@ function monitor-query {
           STATUS="OK"
         fi
 
+        if [[ "$(cat ERR_FILE)" == *"Timeout"* ]]; then
+          break
+        fi
+
+        if [[ "$(cat ERR_FILE)" == *"OutOfMemoryError"* ]]; then
+          break
+        fi
+
   	   	total=$(($total+$t1-$t0))
         TIME_RUN="$QUERY\t$1\t$STRATEGY\t$SLICE\t$mm\tRUN$i\t$(($t1-$t0))\tms\t$STATUS\t$(cat ERR_FILE)"
   	   	echo -e $TIME_RUN >> $TIME_FILE
         echo -e $TIME_RUN
         #echo -e "\n\n" >> $MEM_FILE
-
         sleep 1
   	done
-    AVG="$QUERY\t$1\t$STRATEGY\t$SLICE\t$mm\tAVERAGE\t$(($total/3))\tms"
+    AVG="$QUERY\t$1\t$STRATEGY\t$SLICE\t$mm\tAVERAGE\t$(($total/RUN_CNT))\tms"
+
+    if [[ "$(cat ERR_FILE)" == *"Timeout"* ]]; then
+      AVG+="\tKilledForTimeout"
+      break
+    fi
+
+    if [[ "$(cat ERR_FILE)" == *"OutOfMemoryError"* ]]; then
+      AVG+="\tKilledForOutOfMemory"
+      break
+    fi
+
     echo -e $AVG >> $TIME_FILE
     echo -e $AVG
 
@@ -100,6 +121,7 @@ function monitor-query {
 #monitor-query 10 "q1" "strategy1" "no_slice"
 #monitor-query 1 "q1" "strategy1" "no_slice" "csv"
 #monitor-query 100 "q8" "strategy0" "slice" "csv"
+#monitor-query 1000 "q9" "strategy0" "slice" "csv"
 #exit
 
 for format in $3
