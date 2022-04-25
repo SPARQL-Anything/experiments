@@ -13,8 +13,8 @@ SELECT DISTINCT ?stop ?p ?str WHERE {
   # stops
   SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOPS.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
 
-        ?stopContainer rdfs:member [ a ?key ; rdfs:member ?str . ] .
-        ?stopContainer rdfs:member [ a xyz:stop_id ; rdfs:member ?stop_id . ] .
+        ?stopContainer rdfs:member [ a ?key ; rdfs:member ?str  ] .
+        ?stopContainer rdfs:member [ a xyz:stop_id ; rdfs:member ?stop_id  ] .
 
         BIND (
             IF (?key=xyz:stop_code, gtfs:code,

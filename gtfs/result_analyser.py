@@ -22,7 +22,7 @@ slice = ["no_slice", "slice"]
 memory_limits = [256, 512, 1024, 4096]
 format = "json"
 measures_folder = "/Users/lgu/workspace/spice/CogComplexityAndPerformaceEvaluation/gtfs/measures_json/"
-out_folder = "aggregated_measures_json_1_10_100_1000"
+out_folder = "aggregated_measures_json_1_10_100_1000_2"
 
 if not os.path.exists(out_folder):
     os.mkdir(out_folder)
