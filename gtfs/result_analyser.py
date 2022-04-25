@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import os
 
 
 def get_status_string(status_list):
@@ -19,8 +20,12 @@ input_sizes = [1, 10, 100, 1000]
 strategies = ["strategy0", "strategy1"]
 slice = ["no_slice", "slice"]
 memory_limits = [256, 512, 1024, 4096]
-format = "csv"
-measures_folder = "/Users/lgu/workspace/spice/CogComplexityAndPerformaceEvaluation/gtfs/measures2/"
+format = "json"
+measures_folder = "/Users/lgu/workspace/spice/CogComplexityAndPerformaceEvaluation/gtfs/measures_json/"
+out_folder = "aggregated_measures_json_1_10_100_1000"
+
+if not os.path.exists(out_folder):
+    os.mkdir(out_folder)
 
 for input_size in input_sizes:
 
@@ -101,8 +106,8 @@ for input_size in input_sizes:
                 records_mem.append(record_mem)
 
 
-    pd.DataFrame(records_time).to_csv(f"aggr_time_{input_size}_{format}.tsv", sep='\t', index=False, header=False)
-    pd.DataFrame(records_mem).to_csv(f"aggr_mem_{input_size}_{format}.tsv", sep='\t', index=False, header=False)
+    pd.DataFrame(records_time).to_csv(f"{out_folder}/aggr_time_{input_size}_{format}.tsv", sep='\t', index=False, header=False)
+    pd.DataFrame(records_mem).to_csv(f"{out_folder}/aggr_mem_{input_size}_{format}.tsv", sep='\t', index=False, header=False)
 
 
 

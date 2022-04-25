@@ -2,15 +2,16 @@ PREFIX fx:  <http://sparql.xyz/facade-x/ns/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX xyz: <http://sparql.xyz/facade-x/data/>
 PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT DISTINCT ?stopTime ?trip ?stop ?sequence ?route ?stopName WHERE {
 
   # stoptimes
-  SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOP_TIMES.%format,%param,slice=%slice,strategy=%strategy> {
-    ?stoptime fx:anySlot [ a xyz:trip_id ; rdf:_1 ?trip_id . ] .
-    ?stoptime fx:anySlot [ a xyz:stop_id ; rdf:_1 ?stop_id . ] .
-    ?stoptime fx:anySlot [ a xyz:arrival_time ; rdf:_1 ?arrival_time . ] .
-    ?stoptime fx:anySlot [ a  xyz:stop_sequence ; rdf:_1 ?sequence . ] .
+  SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOP_TIMES.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
+    ?stoptime rdfs:member [ a xyz:trip_id ; rdf:_1 ?trip_id . ] .
+    ?stoptime rdfs:member [ a xyz:stop_id ; rdf:_1 ?stop_id . ] .
+    ?stoptime rdfs:member [ a xyz:arrival_time ; rdf:_1 ?arrival_time . ] .
+    ?stoptime rdfs:member [ a  xyz:stop_sequence ; rdf:_1 ?sequence . ] .
     BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/stoptimes/",?trip_id,"-",?stop_id,"-",?arrival_time) AS ?stopTime ) .
     BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/trips/", ?trip_id ) AS ?trip ) .
     BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/stops/", ?stop_id ) AS ?stop ) .
@@ -18,16 +19,16 @@ SELECT DISTINCT ?stopTime ?trip ?stop ?sequence ?route ?stopName WHERE {
   }
 
   # trips
-  SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/TRIPS.%format,%param,slice=%slice,strategy=%strategy> {
-    ?t fx:anySlot [ a xyz:route_id ; rdf:_1 ?route_id . ] .
-    ?t fx:anySlot [ a xyz:trip_id ; rdf:_1 ?trip_id . ] .
+  SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/TRIPS.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
+    ?t rdfs:member [ a xyz:route_id ; rdf:_1 ?route_id . ] .
+    ?t rdfs:member [ a xyz:trip_id ; rdf:_1 ?trip_id . ] .
     BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/routes/", ?route_id ) AS ?route ) .
   }
 
   # stops
-	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOPS.%format,%param,slice=%slice,strategy=%strategy> {
-    ?stopContainer fx:anySlot [ a xyz:stop_id ; rdf:_1 ?stop_id ] .
-    OPTIONAL {?stopContainer fx:anySlot [ a xyz:stop_name ; rdf:_1 ?stopName . ] . }
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOPS.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
+    ?stopContainer rdfs:member [ a xyz:stop_id ; rdf:_1 ?stop_id ] .
+    OPTIONAL {?stopContainer rdfs:member [ a xyz:stop_name ; rdf:_1 ?stopName . ] . }
 	}
 
 }

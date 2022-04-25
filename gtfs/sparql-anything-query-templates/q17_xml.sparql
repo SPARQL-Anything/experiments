@@ -2,27 +2,28 @@ PREFIX fx:  <http://sparql.xyz/facade-x/ns/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX xyz: <http://sparql.xyz/facade-x/data/>
 PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?routeName ?routeType ?trip ?startTime ?endTime WHERE {
 
-    SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/TRIPS.%format,%param,slice=%slice,strategy=%strategy> {
-      ?tripContainer  fx:anySlot [ a xyz:trip_id ; rdf:_1 ?trip_id . ] .
+    SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/TRIPS.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
+      ?tripContainer  rdfs:member [ a xyz:trip_id ; rdf:_1 ?trip_id . ] .
       BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/trips/", ?trip_id ) AS ?trip ) .
-      ?tripContainer  fx:anySlot [ a xyz:route_id ; rdf:_1 ?route_id . ].
+      ?tripContainer  rdfs:member [ a xyz:route_id ; rdf:_1 ?route_id . ].
     }
 
-    SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/ROUTES.%format,%param,slice=%slice,strategy=%strategy> {
-      ?routeContainer  fx:anySlot [ a xyz:route_id ; rdf:_1 ?route_id . ] .
-      ?routeContainer  fx:anySlot [ a xyz:route_short_name ; rdf:_1 ?routeName . ] .
-      ?routeContainer fx:anySlot [ a xyz:route_type ; rdf:_1 ?route_type . ] .
+    SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/ROUTES.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
+      ?routeContainer  rdfs:member [ a xyz:route_id ; rdf:_1 ?route_id . ] .
+      ?routeContainer  rdfs:member [ a xyz:route_short_name ; rdf:_1 ?routeName . ] .
+      ?routeContainer rdfs:member [ a xyz:route_type ; rdf:_1 ?route_type . ] .
       BIND ( fx:entity( "http://transport.linkeddata.es/resource/RouteType/",?route_type) AS ?routeType )
     }
 
 
-    SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/FREQUENCIES.%format,%param,slice=%slice,strategy=%strategy> {
-      ?frequenciesContainer  fx:anySlot [ a xyz:trip_id ; rdf:_1 ?trip_id . ] .
-      ?frequenciesContainer fx:anySlot [ a xyz:start_time ; rdf:_1 ?startTime . ] .
-      ?frequenciesContainer fx:anySlot [ a xyz:end_time ; rdf:_1 ?endTime . ] .
+    SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/FREQUENCIES.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
+      ?frequenciesContainer  rdfs:member [ a xyz:trip_id ; rdf:_1 ?trip_id . ] .
+      ?frequenciesContainer rdfs:member [ a xyz:start_time ; rdf:_1 ?startTime . ] .
+      ?frequenciesContainer rdfs:member [ a xyz:end_time ; rdf:_1 ?endTime . ] .
     }
 
 

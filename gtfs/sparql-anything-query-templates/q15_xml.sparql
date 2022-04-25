@@ -6,14 +6,15 @@ PREFIX dct: <http://purl.org/dc/terms/>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
 PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT DISTINCT ?stop ?p ?str WHERE {
 
   # stops
-  SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOPS.%format,%param,slice=%slice,strategy=%strategy> {
+  SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOPS.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
 
-        ?stopContainer fx:anySlot [ a ?key ; rdf:_1 ?str . ] .
-        ?stopContainer fx:anySlot [ a xyz:stop_id ; rdf:_1 ?stop_id . ] .
+        ?stopContainer rdfs:member [ a ?key ; rdf:_1 ?str . ] .
+        ?stopContainer rdfs:member [ a xyz:stop_id ; rdf:_1 ?stop_id . ] .
 
         BIND (
             IF (?key=xyz:stop_code, gtfs:code,

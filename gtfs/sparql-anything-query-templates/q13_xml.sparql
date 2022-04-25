@@ -2,21 +2,22 @@ PREFIX fx:  <http://sparql.xyz/facade-x/ns/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX xyz: <http://sparql.xyz/facade-x/data/>
 PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?stop ?parStation ?accName ?name WHERE {
 
   # stops
-	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOPS.%format,%param,slice=%slice,strategy=%strategy> {
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOPS.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
 
-    ?stopContainer fx:anySlot [ a xyz:stop_id ; rdf:_1 ?stop_id . ] .
-    ?stopContainer fx:anySlot [ a xyz:parent_station ; rdf:_1 ?parent_station . ] .
+    ?stopContainer rdfs:member [ a xyz:stop_id ; rdf:_1 ?stop_id . ] .
+    ?stopContainer rdfs:member [ a xyz:parent_station ; rdf:_1 ?parent_station . ] .
 
-    OPTIONAL {?stopContainer fx:anySlot [ a xyz:stop_name ; rdf:_1 ?accName . ] .} .
+    OPTIONAL {?stopContainer rdfs:member [ a xyz:stop_name ; rdf:_1 ?accName . ] .} .
 
-    ?stopContainer fx:anySlot [ a xyz:location_type ; rdf:_1 "2" . ] .
+    ?stopContainer rdfs:member [ a xyz:location_type ; rdf:_1 "2" . ] .
 
-    ?stopContainerParStation fx:anySlot [ a xyz:stop_name ; rdf:_1 ?name ] .
-    ?stopContainerParStation fx:anySlot [ a xyz:stop_id ; rdf:_1 ?parent_station . ] .
+    ?stopContainerParStation rdfs:member [ a xyz:stop_name ; rdf:_1 ?name ] .
+    ?stopContainerParStation rdfs:member [ a xyz:stop_id ; rdf:_1 ?parent_station . ] .
 
     BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/stops/", ?stop_id ) AS ?stop ) .
     BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/stops/", ?parent_station ) AS ?parStation ) .
