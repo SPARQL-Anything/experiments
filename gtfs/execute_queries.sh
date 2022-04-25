@@ -126,11 +126,20 @@ fi
 
 source functions.sh
 
+
+
+if [ -n "$4" ]; then
+  QUERIES_TO_EXECUTE=$4
+else
+  QUERIES_TO_EXECUTE="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18"
+fi
+
+
 for format in $3
 do
   for size in $2
   do
-    for query in {1..18}
+    for query in $QUERIES_TO_EXECUTE
     do
       echo "Monitoring q$query strategy0 no_slice size $size $format"
       monitor-query $size "q$query" "strategy0" "no_slice" $format

@@ -10,6 +10,8 @@ def get_status_string(status_list):
             result += "OOM"
         elif "Timeout" in s:
             result += "T"
+        elif "Exception" in s:
+            result += "E"
         else:
             result += "OK"
         result += " "
@@ -21,8 +23,9 @@ strategies = ["strategy0", "strategy1"]
 slice = ["no_slice", "slice"]
 memory_limits = [256, 512, 1024, 4096]
 format = "json"
-measures_folder = "/Users/lgu/workspace/spice/CogComplexityAndPerformaceEvaluation/gtfs/measures_json/"
-out_folder = "aggregated_measures_json_1_10_100_1000_2"
+measures_folder = "/Users/lgu/workspace/spice/CogComplexityAndPerformaceEvaluation/gtfs/measures/"
+#out_folder = "aggregated_measures_json_1_10_100_1000_2"
+out_folder = "aggregated_measures_xml_1_10_100_1000"
 
 if not os.path.exists(out_folder):
     os.mkdir(out_folder)

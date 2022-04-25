@@ -60,8 +60,10 @@ function monitor-query {
         RUN_CNT=$((RUN_CNT+1))
         echo -e -n $MEM_RECORDS >> $MEM_FILE
         #echo $ERR
-        if [[ "$(cat ERR_FILE)" == *"Error"* ]]; then
+        if  [[ "$(cat ERR_FILE)" == *"Error"* ]]   ; then
           STATUS="Error"
+        elif [[ "$(cat ERR_FILE)" == *"Exception"* ]] ; then
+          STATUS="Exception"
         else
           STATUS="OK"
         fi
@@ -81,6 +83,11 @@ function monitor-query {
           break
         fi
 
+        if [[ "$(cat ERR_FILE)" == *"Exception"* ]]; then
+          echo "Exception"
+          break
+        fi
+
 
   	done
     AVG="$QUERY\t$1\t$STRATEGY\t$SLICE\t$mm\tAVERAGE\t$(($total/RUN_CNT))\tms"
@@ -96,6 +103,11 @@ function monitor-query {
 
     if [[ "$(cat ERR_FILE)" == *"OutOfMemoryError"* ]]; then
       AVG+="\tKilledForOutOfMemory"
+      break
+    fi
+
+    if [[ "$(cat ERR_FILE)" == *"Exception"* ]]; then
+      AVG+="\tKilledForException"
       break
     fi
 
@@ -146,7 +158,7 @@ function monitor-query-singlerun-notimeout {
   done
   t1=$(gdate +%s%3N)
   echo -e -n $MEM_RECORDS >> $MEM_FILE
-  if [[ "$(cat ERR_FILE)" == *"Error"* ]]; then
+  if [ "$(cat ERR_FILE)" == *"Error"* ] || [ "$(cat ERR_FILE)" == *"Exception"* ] ; then
       STATUS="Error"
   else
       STATUS="OK"
