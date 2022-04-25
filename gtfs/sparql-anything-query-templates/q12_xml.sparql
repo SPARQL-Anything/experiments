@@ -7,27 +7,27 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?longName (count( ?name) as ?count) WHERE {
 
 	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/ROUTES.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
-    ?routeContainer rdfs:member [ a xyz:route_id ; rdf:_1 ?route_id . ] .
-    ?routeContainer rdfs:member [ a xyz:route_long_name ; rdf:_1 ?longName . ] .
+    ?routeContainer rdfs:member [ a xyz:route_id ; rdfs:member ?route_id . ] .
+    ?routeContainer rdfs:member [ a xyz:route_long_name ; rdfs:member ?longName . ] .
 	}
 
   # trips
   SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/TRIPS.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
-    ?t rdfs:member [ a xyz:route_id ; rdf:_1 ?route_id . ] .
-    ?t rdfs:member [ a xyz:trip_id ; rdf:_1 ?trip_id . ] .
+    ?t rdfs:member [ a xyz:route_id ; rdfs:member ?route_id . ] .
+    ?t rdfs:member [ a xyz:trip_id ; rdfs:member ?trip_id . ] .
   }
 
   # stoptimes
   SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOP_TIMES.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
-    ?stoptime rdfs:member [ a xyz:trip_id ; rdf:_1 ?trip_id . ] .
-    ?stoptime rdfs:member [ a xyz:stop_id ; rdf:_1 ?stop_id . ] .
+    ?stoptime rdfs:member [ a xyz:trip_id ; rdfs:member ?trip_id . ] .
+    ?stoptime rdfs:member [ a xyz:stop_id ; rdfs:member ?stop_id . ] .
   }
 
   # stops
 	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOPS.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
-    ?stop rdfs:member [ a xyz:stop_id ; rdf:_1 ?stop_id . ] .
-    ?stop rdfs:member [ a xyz:stop_name ; rdf:_1 ?name . ] .
-    ?stop rdfs:member [ a xyz:wheelchair_boarding ; rdf:_1 "1" . ] .
+    ?stop rdfs:member [ a xyz:stop_id ; rdfs:member ?stop_id . ] .
+    ?stop rdfs:member [ a xyz:stop_name ; rdfs:member ?name . ] .
+    ?stop rdfs:member [ a xyz:wheelchair_boarding ; rdfs:member "1" . ] .
 	}
 
 } GROUP BY ?longName

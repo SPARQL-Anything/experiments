@@ -8,11 +8,11 @@ SELECT ?trip ?tripShortName ?service ?route ?shape ?shapePoint ?lat WHERE {
 
   # trips
   SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/TRIPS.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
-    ?tripContainer rdfs:member [ a xyz:trip_id ; rdf:_1 ?trip_id . ] .
-    ?tripContainer rdfs:member [ a xyz:service_id ; rdf:_1 ?service_id . ] .
-    ?tripContainer rdfs:member [ a xyz:route_id ; rdf:_1  ?route_id . ].
-    ?tripContainer rdfs:member [ a xyz:shape_id ; rdf:_1 ?shape_id ] .
-    OPTIONAL { ?tripContainer rdfs:member [ a xyz:trip_short_name ; rdf:_1 ?tripShortName . ] . }
+    ?tripContainer rdfs:member [ a xyz:trip_id ; rdfs:member ?trip_id . ] .
+    ?tripContainer rdfs:member [ a xyz:service_id ; rdfs:member ?service_id . ] .
+    ?tripContainer rdfs:member [ a xyz:route_id ; rdfs:member  ?route_id . ].
+    ?tripContainer rdfs:member [ a xyz:shape_id ; rdfs:member ?shape_id ] .
+    OPTIONAL { ?tripContainer rdfs:member [ a xyz:trip_short_name ; rdfs:member ?tripShortName . ] . }
     BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/trips/", ?trip_id ) AS ?trip ) .
     BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/services/", ?service_id ) AS ?service ) .
     BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/routes/", ?route_id ) AS ?route ) .
@@ -21,9 +21,9 @@ SELECT ?trip ?tripShortName ?service ?route ?shape ?shapePoint ?lat WHERE {
 
   # shapes, shapes_points
 	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/SHAPES.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
-    ?shapeContainer rdfs:member [ a xyz:shape_id ; rdf:_1 ?shape_id . ] .
-    ?shapeContainer rdfs:member [ a xyz:shape_pt_sequence ; rdf:_1 ?shape_pt_sequence . ] .
-    ?shapeContainer rdfs:member [ a xyz:shape_pt_lat ; rdf:_1 ?shape_pt_lat . ] .
+    ?shapeContainer rdfs:member [ a xyz:shape_id ; rdfs:member ?shape_id . ] .
+    ?shapeContainer rdfs:member [ a xyz:shape_pt_sequence ; rdfs:member ?shape_pt_sequence . ] .
+    ?shapeContainer rdfs:member [ a xyz:shape_pt_lat ; rdfs:member ?shape_pt_lat . ] .
     BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/shape_point/", ?shape_id ,"-", ?shape_pt_sequence ) AS ?shapePoint )
     BIND ( xsd:double(?shape_pt_lat) AS ?lat ) .
     FILTER (?lat > 17514)

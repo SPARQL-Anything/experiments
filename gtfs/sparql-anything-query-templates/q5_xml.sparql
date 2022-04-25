@@ -8,9 +8,9 @@ SELECT ?service ?serviceRule ?date WHERE {
 
     SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/CALENDAR_DATES.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
 
-      ?calendarDatesContainer rdfs:member [ a xyz:service_id ; rdf:_1 ?service_id ] ;
-        rdfs:member [ a xyz:date ; rdf:_1 ?dateex ] ;
-        rdfs:member [ a xyz:exception_type ; rdf:_1 ?exception_type ] .
+      ?calendarDatesContainer rdfs:member [ a xyz:service_id ; rdfs:member ?service_id ] ;
+        rdfs:member [ a xyz:date ; rdfs:member ?dateex ] ;
+        rdfs:member [ a xyz:exception_type ; rdfs:member ?exception_type ] .
 
       BIND( fx:entity("http://transport.linkeddata.es/madrid/metro/calendar_date_rule/", ?service_id, "-", ?date ) AS ?serviceRule ) .
       BIND( fx:entity( "http://transport.linkeddata.es/madrid/metro/services/", ?service_id ) AS ?service ) .

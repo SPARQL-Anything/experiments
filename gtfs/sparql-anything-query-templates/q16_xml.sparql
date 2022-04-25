@@ -7,9 +7,9 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT DISTINCT ?trip ?service ?route ?serviceRule ?servDate WHERE {
 
     SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/TRIPS.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
-      ?tripContainer rdfs:member [ a xyz:trip_id ; rdf:_1 ?trip_id . ] .
-      ?tripContainer rdfs:member [ a xyz:service_id ; rdf:_1 ?service_id . ] .
-      ?tripContainer  rdfs:member [ a xyz:route_id ; rdf:_1 ?route_id . ] .
+      ?tripContainer rdfs:member [ a xyz:trip_id ; rdfs:member ?trip_id . ] .
+      ?tripContainer rdfs:member [ a xyz:service_id ; rdfs:member ?service_id . ] .
+      ?tripContainer  rdfs:member [ a xyz:route_id ; rdfs:member ?route_id . ] .
       BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/routes/", ?route_id ) AS ?route ) .
       BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/services/", ?service_id ) AS ?service_id_iri ) .
       BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/trips/", ?trip_id ) AS ?trip ) .
@@ -17,9 +17,9 @@ SELECT DISTINCT ?trip ?service ?route ?serviceRule ?servDate WHERE {
 
     # service2, calendar_date_rules
     SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/CALENDAR_DATES.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
-      ?calendarDatesContainer rdfs:member [ a xyz:service_id ; rdf:_1 ?service_id . ] .
-      ?calendarDatesContainer rdfs:member [ a xyz:date ; rdf:_1 ?date . ]  .
-      ?calendarDatesContainer  rdfs:member [ a xyz:exception_type ; rdf:_1 "true" ] .
+      ?calendarDatesContainer rdfs:member [ a xyz:service_id ; rdfs:member ?service_id . ] .
+      ?calendarDatesContainer rdfs:member [ a xyz:date ; rdfs:member ?date . ]  .
+      ?calendarDatesContainer  rdfs:member [ a xyz:exception_type ; rdfs:member "true" ] .
       BIND( xsd:date( ?date ) AS ?servDate )
       FILTER (?servDate >= '2017-03-01'^^xsd:date) .
     	FILTER (?servDate <= '2017-03-31'^^xsd:date) .

@@ -8,10 +8,10 @@ SELECT ?stop ?stopDescription ?wheelchairAccesible ?stopLat ?stopLon  WHERE {
 
 	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOPS.%format,%param,slice=%slice,strategy=%strategy,use-rdfs-member=true> {
 
-		?stopsContainer rdfs:member [ a xyz:stop_id ; rdf:_1 ?stop_id ] .
-		OPTIONAL { ?stopsContainer rdfs:member [ a xyz:stop_desc ; rdf:_1 ?stopDescription ] }
+		?stopsContainer rdfs:member [ a xyz:stop_id ; rdfs:member ?stop_id ] .
+		OPTIONAL { ?stopsContainer rdfs:member [ a xyz:stop_desc ; rdfs:member ?stopDescription ] }
 		OPTIONAL {
-			?stopsContainer rdfs:member [ a xyz:wheelchair_boarding ; rdf:_1 ?wheelchair_boarding ]
+			?stopsContainer rdfs:member [ a xyz:wheelchair_boarding ; rdfs:member ?wheelchair_boarding ]
 			BIND ( fx:entity ( "http://transport.linkeddata.es/resource/WheelchairBoardingStatus/", ?wheelchair_boarding ) AS ?wheelchairAccesible )
 		}
 		BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/stops/", ?stop_id ) AS ?stop_id_iri ) .
