@@ -1,7 +1,7 @@
 #!/bin/bash
 #/Users/lgu/workspace/spice/sparql.anything/sparql-anything-cli/target/sparql-anything-0.7.0-SNAPSHOT.jar
 SPARQL_ANYTHING_JAR=$1
-RESULTS_DIR=$(pwd)/measures
+RESULTS_DIR=$(pwd)/measures_$3
 
 if [ ! -d $RESULTS_DIR ]; then
   mkdir $RESULTS_DIR

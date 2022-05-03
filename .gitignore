@@ -14,3 +14,5 @@ gtfs/test.sh
 gtfs/generate_rdf_files.sh
 gtfs/.idea/
 gtfs/aggr*
+gtfs/old_*
+gtfs/summary*
