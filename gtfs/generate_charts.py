@@ -106,16 +106,16 @@ def generate_chart(f, i, m):
     br3 = [x + barWidth for x in br2]
     br4 = [x + barWidth for x in br3]
     # Make the plot
-    plt.bar(br1, s0_ns, yerr=s0_ns_e, color='r', width=barWidth, edgecolor='grey', label='Strategy 0 w/o slicing',
+    plt.bar(br1, s0_ns, yerr=s0_ns_e, color='r', width=barWidth, edgecolor='grey', label='without triple filtering - w/o slicing',
             capsize=2, ecolor='grey')
-    plt.bar(br2, s1_ns, yerr=s1_ns_e, color='g', width=barWidth, edgecolor='grey', label='Strategy 1 w/o slicing',
+    plt.bar(br2, s1_ns, yerr=s1_ns_e, color='g', width=barWidth, edgecolor='grey', label='with triple filtering - w/o slicing',
             capsize=2, ecolor='grey')
-    plt.bar(br3, s0_s, yerr=s0_s_e, color='b', width=barWidth, edgecolor='grey', label='Strategy 0 with slicing',
+    plt.bar(br3, s0_s, yerr=s0_s_e, color='b', width=barWidth, edgecolor='grey', label='without triple filtering - with slicing',
             capsize=2, ecolor='grey')
-    plt.bar(br4, s1_s, yerr=s1_s_e, color='y', width=barWidth, edgecolor='grey', label='Strategy 1 with slicing',
+    plt.bar(br4, s1_s, yerr=s1_s_e, color='y', width=barWidth, edgecolor='grey', label='with triple filtering - with slicing',
             capsize=2, ecolor='grey')
     # Adding Xticks
-    plt.ylabel('Time (ms)')
+    plt.ylabel('Average Execution Time (ms)')
     plt.xticks([r + barWidth for r in range(len(s0_ns))], [f"q{q}" for q in range(1, 19)])
     plt.legend()
     # plt.show()
@@ -220,29 +220,29 @@ def generate_chart_for_all_formats(i, m):
 
 
     # Make the plot
-    plt.bar(br1, s0_ns_0, yerr=s0_ns_e_0, color='r', width=barWidth, edgecolor='grey', label='Strategy 0 w/o slicing CSV',
+    plt.bar(br1, s0_ns_0, yerr=s0_ns_e_0, color='r', width=barWidth, edgecolor='grey', label='w/o triple filtering - w/o slicing - CSV',
             capsize=2, ecolor='grey')
-    plt.bar(br11, s0_ns_1, yerr=s0_ns_e_1, color='r', width=barWidth, edgecolor='grey', label='Strategy 0 w/o slicing JSON',
+    plt.bar(br11, s0_ns_1, yerr=s0_ns_e_1, color='r', width=barWidth, edgecolor='grey', label='w/o triple filtering - w/o slicing - JSON',
             capsize=2, ecolor='grey', hatch="//")
 
-    plt.bar(br2, s1_ns_0, yerr=s1_ns_e_0, color='g', width=barWidth, edgecolor='grey', label='Strategy 1 w/o slicing CSV',
+    plt.bar(br2, s1_ns_0, yerr=s1_ns_e_0, color='g', width=barWidth, edgecolor='grey', label='with triple filtering - w/o slicing - CSV',
             capsize=2, ecolor='grey')
     plt.bar(br21, s1_ns_1, yerr=s1_ns_e_1, color='g', width=barWidth, edgecolor='grey',
             label='Strategy 1 w/o slicing CSV',
             capsize=2, ecolor='grey', hatch="//")
 
-    plt.bar(br3, s0_s_0, yerr=s0_s_e_0, color='b', width=barWidth, edgecolor='grey', label='Strategy 0 with slicing CSV',
+    plt.bar(br3, s0_s_0, yerr=s0_s_e_0, color='b', width=barWidth, edgecolor='grey', label='w/o triple filtering - with slicing - CSV',
             capsize=2, ecolor='grey')
-    plt.bar(br31, s0_s_1, yerr=s0_s_e_1, color='b', width=barWidth, edgecolor='grey', label='Strategy 0 with slicing JSON',
+    plt.bar(br31, s0_s_1, yerr=s0_s_e_1, color='b', width=barWidth, edgecolor='grey', label='w/o triple filtering - with slicing - JSON',
             capsize=2, ecolor='grey', hatch="//")
 
-    plt.bar(br4, s1_s_0, yerr=s1_s_e_0, color='y', width=barWidth, edgecolor='grey', label='Strategy 1 with slicing CSV',
+    plt.bar(br4, s1_s_0, yerr=s1_s_e_0, color='y', width=barWidth, edgecolor='grey', label='with triple filtering - with slicing - CSV',
             capsize=2, ecolor='grey')
-    plt.bar(br41, s1_s_1, yerr=s1_s_e_1, color='y', width=barWidth, edgecolor='grey', label='Strategy 1 with slicing JSON',
+    plt.bar(br41, s1_s_1, yerr=s1_s_e_1, color='y', width=barWidth, edgecolor='grey', label='with triple filtering - with slicing - JSON',
             capsize=2, ecolor='grey', hatch="//")
 
     # Adding Xticks
-    plt.ylabel('Time (ms)')
+    plt.ylabel('Average Execution Time (ms)')
     plt.xticks([r + 4 * barWidth for r in range(len(s0_ns_0))], [f"q{q}" for q in range(1, 19)])
     plt.legend()
 
@@ -345,36 +345,36 @@ def generate_chart_for_all_formats_all_memories(i):
     br4 = [x + barWidth for x in br31]
     br41 = [x + barWidth for x in br4]
 
-
-
-    # Make the plot
-    plt.bar(br1, s0_ns_0, yerr=s0_ns_e_0, color='r', width=barWidth, edgecolor='grey', label='Strategy 0 w/o slicing CSV',
+    # Make the plot"
+    plt.bar(br1, s0_ns_0, yerr=s0_ns_e_0, color='r', width=barWidth, edgecolor='grey', label='w/o triple filtering - w/o slicing - CSV',
             capsize=2, ecolor='grey')
-    plt.bar(br11, s0_ns_1, yerr=s0_ns_e_1, color='r', width=barWidth, edgecolor='grey', label='Strategy 0 w/o slicing JSON',
+    plt.bar(br11, s0_ns_1, yerr=s0_ns_e_1, color='r', width=barWidth, edgecolor='grey', label='w/o triple filtering - w/o slicing - JSON',
             capsize=2, ecolor='grey', hatch="//")
 
-    plt.bar(br2, s1_ns_0, yerr=s1_ns_e_0, color='g', width=barWidth, edgecolor='grey', label='Strategy 1 w/o slicing CSV',
+    plt.bar(br2, s1_ns_0, yerr=s1_ns_e_0, color='g', width=barWidth, edgecolor='grey', label='with triple filtering - w/o slicing - CSV',
             capsize=2, ecolor='grey')
     plt.bar(br21, s1_ns_1, yerr=s1_ns_e_1, color='g', width=barWidth, edgecolor='grey',
-            label='Strategy 1 w/o slicing CSV',
+            label='with triple filtering - w/o slicing - CSV',
             capsize=2, ecolor='grey', hatch="//")
 
-    plt.bar(br3, s0_s_0, yerr=s0_s_e_0, color='b', width=barWidth, edgecolor='grey', label='Strategy 0 with slicing CSV',
+    plt.bar(br3, s0_s_0, yerr=s0_s_e_0, color='b', width=barWidth, edgecolor='grey', label='w/o triple filtering - with slicing - CSV',
             capsize=2, ecolor='grey')
-    plt.bar(br31, s0_s_1, yerr=s0_s_e_1, color='b', width=barWidth, edgecolor='grey', label='Strategy 0 with slicing JSON',
+    plt.bar(br31, s0_s_1, yerr=s0_s_e_1, color='b', width=barWidth, edgecolor='grey', label='w/o triple filtering - with slicing - JSON',
             capsize=2, ecolor='grey', hatch="//")
 
-    plt.bar(br4, s1_s_0, yerr=s1_s_e_0, color='y', width=barWidth, edgecolor='grey', label='Strategy 1 with slicing CSV',
+    plt.bar(br4, s1_s_0, yerr=s1_s_e_0, color='y', width=barWidth, edgecolor='grey', label='with triple filtering - with slicing - CSV',
             capsize=2, ecolor='grey')
-    plt.bar(br41, s1_s_1, yerr=s1_s_e_1, color='y', width=barWidth, edgecolor='grey', label='Strategy 1 with slicing JSON',
+    plt.bar(br41, s1_s_1, yerr=s1_s_e_1, color='y', width=barWidth, edgecolor='grey', label='with triple filtering - with slicing - JSON',
             capsize=2, ecolor='grey', hatch="//")
 
     # Adding Xticks
-    plt.ylabel('Time (ms)')
+    plt.ylabel('Average Execution Time (ms)')
+    plt.xlim(-barWidth, len(br1)-barWidth)
     plt.xticks([r + 4 * barWidth for r in range(len(s0_ns_0))], [f"q{q}" for q in range(1, 19)])
     plt.legend()
 
     # plt.show()
+    plt.tight_layout()
     plt.savefig(f"{out_folder}/{i}.png")
     plt.clf()
 
@@ -391,6 +391,8 @@ for input_size in input_sizes:
 #generate_chart_for_all_formats(1, 256)
 #generate_chart_for_all_formats(100, 256)
 #generate_chart_for_all_formats(100, 512)
+
+#generate_chart_for_all_formats_all_memories(1)
 
 
 

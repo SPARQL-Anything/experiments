@@ -25,7 +25,7 @@ At the moment only csv, json and xml formats are allowed.
 
 ```
 
-./generate_queries.sh "1 10 100"
+./generate_queries.sh "1 10 100" "TMP_FOLDER"
 
 ```
 

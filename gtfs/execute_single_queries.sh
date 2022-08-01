@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SPARQL_ANYTHING_JAR=$1
-RESULTS_DIR=$(pwd)/measures_csv_single_run_no_timeout
+RESULTS_DIR=$(pwd)/$2
 
 if [ ! -d $RESULTS_DIR ]; then
   mkdir $RESULTS_DIR
@@ -10,6 +10,8 @@ else
 fi
 
 source functions.sh
+
+monitor-query 1 "q1" "strategy0" "no_slice" "json" "ondisk"
 
 #monitor-query 1 "q1" "strategy1" "slice" "csv"
 #monitor-query 1 "q2" "strategy1" "slice" "csv"
@@ -158,14 +160,14 @@ source functions.sh
 #monitor-query-singlerun-notimeout 1000 "q9" "strategy0" "slice" "csv" "-Xmx4096m"
 #monitor-query-singlerun-notimeout 1000 "q9" "strategy1" "slice" "csv" "-Xmx4096m"
 
-monitor-query-singlerun-notimeout 1000 "q10" "strategy0" "slice" "csv" "-Xmx4096m"
-monitor-query-singlerun-notimeout 1000 "q10" "strategy1" "slice" "csv" "-Xmx4096m"
-monitor-query-singlerun-notimeout 1000 "q12" "strategy0" "slice" "csv" "-Xmx4096m"
-monitor-query-singlerun-notimeout 1000 "q12" "strategy1" "slice" "csv" "-Xmx4096m"
-monitor-query-singlerun-notimeout 1000 "q13" "strategy1" "no_slice" "csv" "-Xmx4096m"
-monitor-query-singlerun-notimeout 1000 "q14" "strategy0" "slice" "csv" "-Xmx4096m"
-monitor-query-singlerun-notimeout 1000 "q14" "strategy1" "slice" "csv" "-Xmx4096m"
-monitor-query-singlerun-notimeout 1000 "q16" "strategy0" "slice" "csv" "-Xmx4096m"
-monitor-query-singlerun-notimeout 1000 "q16" "strategy1" "slice" "csv" "-Xmx4096m"
-monitor-query-singlerun-notimeout 1000 "q17" "strategy0" "slice" "csv" "-Xmx4096m"
-monitor-query-singlerun-notimeout 1000 "q17" "strategy1" "slice" "csv" "-Xmx4096m"
+#monitor-query-singlerun-notimeout 1000 "q10" "strategy0" "slice" "csv" "-Xmx4096m"
+#monitor-query-singlerun-notimeout 1000 "q10" "strategy1" "slice" "csv" "-Xmx4096m"
+#monitor-query-singlerun-notimeout 1000 "q12" "strategy0" "slice" "csv" "-Xmx4096m"
+#monitor-query-singlerun-notimeout 1000 "q12" "strategy1" "slice" "csv" "-Xmx4096m"
+#monitor-query-singlerun-notimeout 1000 "q13" "strategy1" "no_slice" "csv" "-Xmx4096m"
+#monitor-query-singlerun-notimeout 1000 "q14" "strategy0" "slice" "csv" "-Xmx4096m"
+#monitor-query-singlerun-notimeout 1000 "q14" "strategy1" "slice" "csv" "-Xmx4096m"
+#monitor-query-singlerun-notimeout 1000 "q16" "strategy0" "slice" "csv" "-Xmx4096m"
+#monitor-query-singlerun-notimeout 1000 "q16" "strategy1" "slice" "csv" "-Xmx4096m"
+#monitor-query-singlerun-notimeout 1000 "q17" "strategy0" "slice" "csv" "-Xmx4096m"
+#monitor-query-singlerun-notimeout 1000 "q17" "strategy1" "slice" "csv" "-Xmx4096m"

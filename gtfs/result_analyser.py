@@ -36,9 +36,10 @@ input_sizes = [1, 10, 100, 1000]
 strategies = ["strategy0", "strategy1"]
 slice = ["no_slice", "slice"]
 memory_limits = [256, 512, 1024, 4096]
-format = "json"
-measures_folder = "/Users/lgu/workspace/spice/CogComplexityAndPerformaceEvaluation/gtfs/measures_json/"
-out_folder = "summary_json"
+format = "csv"
+experiment_folder = "/Users/lgu/workspace/spice/CogComplexityAndPerformaceEvaluation/gtfs/"
+measures_folder = f"{experiment_folder}measures_{format}/"
+out_folder = f"summary_{format}"
 #out_folder = "aggregated_measures_xml_1_10_100_1000"
 
 if not os.path.exists(out_folder):
@@ -129,13 +130,19 @@ for input_size in input_sizes:
 
 ## generate summary
 records_time = []
+records_time_with_mem = []
 
 records_time.append([f"Format", "Query", "Strategy", "Slice", "Size", "Memory", "Mean", "Std",
                          "Status-1", "Status-2", "Status-3"])
 
+records_time_with_mem.append([f"Format", "Query", "Strategy", "Slice", "Size", "Memory", "Mean", "Std",
+                         "Status-1", "Status-2", "Status-3", "CPU-MEAN", "CPU-STD", "RSS-MEAN", "RSS-STD"])
+
+
 for input_size in input_sizes:
     for q in range(1, 19):
         time_df = pd.read_csv(f"{measures_folder}time_q{q}_{format}.tsv", sep='\t')
+        mem_df = pd.read_csv(f"{measures_folder}mem_q{q}_{format}.tsv", sep='\t')
         for s in slice:
             for strategy in strategies:
                 for memory_limit in memory_limits:
@@ -160,6 +167,35 @@ for input_size in input_sizes:
                     record.extend(get_status_list(list(r[r["STDErr"].notna()]["STDErr"])))
                     records_time.append(record)
 
+                    record_with_mem = [r for r in record]
+
+                    mem_runs = mem_df[(mem_df["InputSize"] == input_size) &
+                                      (mem_df["Strategy"] == strategy) &
+                                      (mem_df["Slice"] == s) &
+                                      (mem_df["MemoryLimit"] == memory_limit)
+                                      ]
+
+                    cpu = np.array(mem_runs["%cpu"])
+                    rss = np.array(mem_runs["rss"])
+
+                    if len(cpu) > 0:
+                        record_with_mem.append(f"{cpu.mean():.1f}".replace(".", ","))
+                        record_with_mem.append(f"{cpu.std():.1f}".replace(".", ","))
+                    else:
+                        record_with_mem.append("NA")
+                        record_with_mem.append("NA")
+
+                    if len(rss) > 0:
+                        record_with_mem.append(f"{rss.mean():.1f}".replace(".", ","))
+                        record_with_mem.append(f"{rss.std():.1f}".replace(".", ","))
+                    else:
+                        record_with_mem.append("NA")
+                        record_with_mem.append("NA")
+
+                    records_time_with_mem.append(record_with_mem)
+
+
 pd.DataFrame(records_time).to_csv(f"{out_folder}/summary_{format}.tsv", sep='\t', index=False, header=False)
+pd.DataFrame(records_time_with_mem).to_csv(f"{out_folder}/summary_with_mem_{format}.tsv", sep='\t', index=False, header=False)
 
 

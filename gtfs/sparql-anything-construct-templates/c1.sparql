@@ -1,0 +1,226 @@
+PREFIX rr: <http://www.w3.org/ns/r2rml#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX rev: <http://purl.org/stuff/rev#>
+PREFIX gtfs: <http://vocab.gtfs.org/terms#>
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX schema: <http://schema.org/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+PREFIX ql: <http://semweb.mmlab.be/ns/ql#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX fx:  <http://sparql.xyz/facade-x/ns/>
+PREFIX xyz: <http://sparql.xyz/facade-x/data/>
+
+CONSTRUCT {
+	# stoptimes
+    ?stoptime_iri a gtfs:StopTime ;
+     gtfs:arrivalTime ?arrival_time_lt ;
+     gtfs:departureTime ?departure_time_lt ;
+	 gtfs:stopSequence ?stop_sequence_lt ;
+     gtfs:headsign ?stop_headsign ;
+	 gtfs:pickupType ?pickup_type_iri ;
+	 gtfs:dropOffType ?drop_off_type_iri ;
+	 gtfs:distanceTraveled ?shape_dist_traveled ;
+	 gtfs:trip ?trip_id_iri ;
+	 gtfs:stop ?stop_id_iri
+	.
+	# trips
+    ?trip_id_iri a gtfs:Trip ;
+     gtfs:headsign ?trip_headsign ;
+     gtfs:shortName ?trip_short_name ;
+     gtfs:direction ?direction_id ;
+     gtfs:block ?block_id ;
+     gtfs:wheelchairAccessible ?wheelchair_accessible_iri ;
+	 gtfs:service ?service_id_iri ;
+	 gtfs:route ?route_id_iri ;
+	 gtfs:shape ?shape_id_iri
+	.
+    # routes
+	?route_id_iri a gtfs:Route ;
+     gtfs:shortName ?route_short_name ;
+     gtfs:longName ?route_long_name ;
+     dct:description ?route_desc ;
+     gtfs:routeType ?route_type_iri ;
+     gtfs:routeUrl ?route_url_iri ;
+     gtfs:color ?route_color ;
+     gtfs:textColor ?route_text_color ;
+	 gtfs:agency ?agency_id_iri
+	 .
+	# agency
+	?agency_id_iri a gtfs:Agency ;
+     foaf:page ?agency_url_iri ;
+     foaf:name ?agency_name ;
+     gtfs:timeZone ?agency_timezone ;
+     dct:language ?agency_lang ;
+     foaf:phone ?agency_phone ;
+     gtfs:fareUrl ?agency_fare_url_iri
+	 .
+	# stops
+    ?stop_id_iri a gtfs:Stop ;
+     gtfs:code ?stop_code ;
+     dct:identifier ?stop_id ;
+     foaf:name ?stop_name ;
+     dct:description ?stop_desc ;
+     geo:lat ?stop_lat_lt ;
+     geo:long ?stop_lon_lt ;
+     gtfs:zone ?zone_id ;
+     foaf:page ?stop_url_iri ;
+     gtfs:locationType ?location_type_iri ;
+     gtfs:timeZone ?stop_timezone ;
+     gtfs:wheelchairAccessible ?wheelchair_boarding_iri ;
+	 gtfs:parentStation ?parent_station_iri
+	 .
+	# services1, services2
+	?service_id_iri a gtfs:Service ;
+	  gtfs:serviceRule ?calendar_date_rules_iri ; # service1
+	  gtfs:serviceRule ?calendar_rules_iri # service2
+	.
+	# calendar_date_rule
+	?calendar_date_rules_iri a gtfs:CalendarDateRule ;
+      dct:date ?date_lt ;
+      gtfs:dateAddition ?exception_type_lt
+	 .
+	# calendar_rule
+	?calendar_rules_iri a gtfs:CalendarRule ;
+      gtfs:monday ?monday_lt ;
+      gtfs:tuesday ?tuesday_lt ;
+      gtfs:wednesday ?wednesday_lt ;
+      gtfs:thursday ?thursday_lt ;
+      gtfs:friday ?friday_lt ;
+      gtfs:saturday ?saturday_lt ;
+      gtfs:sunday ?sunday_lt ;
+     schema:startDate ?start_date_lt ;
+     schema:endDate ?end_date_lt
+	 .
+	 # feed
+     ?feed_publisher_name_iri a gtfs:Feed ;
+      dct:publisher ?feed_publisher_name ;
+      foaf:page ?feed_publisher_url_iri ;
+      dct:language ?feed_lang ;
+      schema:startDate ?feed_start_date_lt ;
+      schema:endDate ?feed_end_date ;
+      schema:version ?feed_version
+	 .
+	 # shapes
+	 ?shape_id_iri a gtfs:Shape ;
+	  gtfs:shapePoint ?shape_pt_iri
+	  .
+	 ?shape_pt_iri a gtfs:ShapePoint ;
+      geo:lat ?shape_pt_lat_lt ;
+      geo:long ?shape_pt_lon_lt ;
+      gtfs:pointSequence ?shape_pt_sequence ;
+      gtfs:distanceTraveled ?shape_dist_traveled
+	 .
+	 # frequency
+     ?trip_frequency_iri a gtfs:Frequency ;
+      gtfs:startTime ?start_time ;
+      gtfs:endTime ?end_time ;
+      gtfs:headwaySeconds ?headway_secs_lt ;
+      gtfs:exactTimes ?exact_times_lt ;
+      gtfs:trip ?trip_id_iri
+	  .
+} WHERE {
+
+	# stoptimes
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOP_TIMES.%format,%param,slice=%slice,strategy=%strategy> {
+		[] xyz:trip_id ?trip_id ; xyz:stop_id ?stop_id ; xyz:arrival_time ?arrival_time ; xyz:departure_time ?departure_time ; xyz:stop_sequence ?stop_sequence ; xyz:stop_headsign ?stop_headsign ; xyz:pickup_type ?pickup_type ; xyz:drop_off_type ?drop_off_type ; xyz:shape_dist_traveled  ?shape_dist_traveled ; xyz:trip_id ?trip_id .
+		BIND ( fx:literal( ?arrival_time, xsd:duration) AS ?arrival_time_lt ) .
+		BIND ( fx:literal( ?departure_time, xsd:duration) AS ?departure_time_lt ) .
+		BIND ( xsd:integer (?stop_sequence ) AS ?stop_sequence_lt ) .
+		BIND ( fx:entity( "http://transport.linkeddata.es/resource/PickupType/", ?pickup_type ) AS ?pickup_type_iri ) .
+		BIND ( fx:entity( "http://transport.linkeddata.es/resource/DropOffType/", ?drop_off_type ) AS ?drop_off_type_iri) .
+	}
+	BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/stoptimes/",?trip_id,"-",?stop_id,"-",?arrival_time) AS ?stoptime_iri )
+	BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/trips/", ?trip_id ) AS ?trip_id_iri ) .
+	BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/stops/", ?stop_id ) AS ?stop_id_iri ) .
+
+	# trips
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/TRIPS.%format,%param,slice=%slice,strategy=%strategy> {
+		[] xyz:trip_id ?trip_id ; xyz:trip_headsign ?trip_headsign ; xyz:trip_short_name ?trip_short_name ; xyz:direction_id ?direction_id ; xyz:block_id ?block_id ; xyz:wheelchair_accessible ?wheelchair_accessible ; xyz:service_id ?service_id ; xyz:route_id ?route_id ; xyz:shape_id ?shape_id .
+		BIND ( fx:entity( "http://transport.linkeddata.es/resource/WheelchairBoardingStatus/", ?wheelchair_accessible ) AS ?wheelchair_accessible_iri ) .
+	}
+
+	BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/services/", ?service_id ) AS ?service_id_iri ) .
+	BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/routes/", ?route_id ) AS ?route_id_iri ) .
+	BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/shape/", ?shape_id ) AS ?shape_id_iri ) .
+
+	# routes
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/ROUTES.%format,%param,slice=%slice,strategy=%strategy> {
+		[] xyz:route_id ?route_id ; xyz:route_short_name ?route_short_name ; xyz:route_long_name ?route_long_name ; xyz:route_desc ?route_desc ; xyz:route_type ?route_type ;  xyz:route_url ?route_url ; xyz:route_color ?route_color ; xyz:route_text_color ?route_text_color ; xyz:agency_id ?agency_id .
+		BIND ( fx:entity( ?route_url ) AS ?route_url_iri ) .
+		BIND ( fx:entity( "http://transport.linkeddata.es/resource/RouteType/",?route_type) AS ?route_type_iri )
+	}
+
+	BIND ( fx:entity( "http://transport.linkeddata.es/madrid/agency/", ?agency_id ) AS ?agency_id_iri ) .
+
+	# agency
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/AGENCY.%format,%param,slice=%slice,strategy=%strategy> {
+		[] xyz:agency_id ?agency_id ; xyz:agency_url ?agency_url ; xyz:agency_fare_url ?agency_fare_url ; xyz:agency_name ?agency_name ; xyz:agency_timezone ?agency_timezone ; xyz:agency_lang ?agency_lang ; xyz:agency_phone ?agency_phone .
+		BIND (fx:entity (?agency_url) AS ?agency_url_iri ) .
+		BIND (fx:entity (?agency_fare_url) AS ?agency_fare_url_iri ) .
+	}
+
+	# stops
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/STOPS.%format,%param,slice=%slice,strategy=%strategy> {
+        [] xyz:stop_code ?stop_code ; xyz:stop_id ?stop_id ; xyz:stop_name ?stop_name ; xyz:stop_desc ?stop_desc ; xyz:stop_lat ?stop_lat ; xyz:stop_lon ?stop_lon ; xyz:zone_id ?zone_id ; xyz:stop_url ?stop_url ; xyz:location_type ?location_type ; xyz:stop_timezone ?stop_timezone ; xyz:wheelchair_boarding ?wheelchair_boarding ; xyz:parent_station ?parent_station .
+		BIND ( fx:entity ( ?stop_url ) AS ?stop_url_iri ) .
+		BIND ( fx:entity ( "http://transport.linkeddata.es/resource/LocationType/", ?location_type ) AS ?location_type_iri ) .
+ 		BIND ( fx:entity ( "http://transport.linkeddata.es/resource/WheelchairBoardingStatus/", ?wheelchair_boarding ) AS ?wheelchair_boarding_iri ) .
+		#BIND ( fx:literal ( ?stop_lat, xsd:double ) AS ?stop_lat_lt ) .
+		BIND ( xsd:double ( ?stop_lat ) AS ?stop_lat_lt ) .
+		BIND ( xsd:double ( ?stop_lon ) AS ?stop_lon_lt ) .
+		BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/stops/", ?parent_station ) AS ?parent_station_iri ) .
+	}
+
+	# services1, calendar_rules
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/CALENDAR.%format,%param,slice=%slice,strategy=%strategy> {
+		# service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
+		[] xyz:service_id ?service_id ; xyz:monday ?monday ; xyz:tuesday ?tuesday ; xyz:wednesday ?wednesday ; xyz:thursday ?thursday ; xyz:friday ?friday ; xyz:saturday ?saturday ; xyz:sunday ?sunday ; xyz:start_date ?start_date ; xyz:end_date ?end_date .
+		BIND (xsd:boolean(?monday) AS ?monday_lt ) .
+		BIND (xsd:boolean(?tuesday) AS ?tuesday_lt ) .
+		BIND (xsd:boolean(?wednesday) AS ?wednesday_lt ) .
+		BIND (xsd:boolean(?thursday) AS  ?thursday_lt ) .
+		BIND (xsd:boolean(?friday ) AS ?friday_lt ) .
+		BIND (xsd:boolean(?saturday ) AS ?saturday_lt ) .
+		BIND (xsd:boolean(?sunday ) AS ?sunday_lt ) .
+		BIND (xsd:date(?start_date ) AS ?start_date_lt ) .
+		BIND (xsd:date(?end_date ) AS ?end_date_lt ) .
+		BIND( fx:entity("http://transport.linkeddata.es/madrid/metro/calendar_rules/", ?service_id ) AS ?calendar_rules_iri ) .
+	}
+
+	# service2, calendar_date_rules
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/CALENDAR_DATES.%format,%param,slice=%slice,strategy=%strategy> {
+		[] xyz:service_id ?service_id ; xyz:date ?date ; xyz:exception_type ?exception_type .
+		BIND( fx:entity("http://transport.linkeddata.es/madrid/metro/calendar_date_rule/", ?service_id, "-", ?date ) AS ?calendar_date_rules_iri ) .
+		BIND( xsd:date( ?date ) AS ?date_lt ) .
+		BIND( xsd:boolean( ?exception_type ) AS ?exception_type_lt ) .
+	}
+
+	# feed
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/FEED_INFO.%format,%param,slice=%slice,strategy=%strategy> {
+		[] xyz:feed_publisher_name ?feed_publisher_name ; xyz:feed_publisher_url ?feed_publisher_url ; xyz:feed_lang ?feed_lang ; xyz:feed_start_date ?feed_start_date ; xyz:feed_end_date ?feed_end_date ; xyz:feed_version ?feed_version .
+		BIND (fx:entity(?feed_publisher_url) AS ?feed_publisher_url_iri ) .
+		BIND (xsd:date(?feed_start_date) AS ?feed_start_date_lt ) .
+		BIND (xsd:date(?feed_end_date) AS ?feed_end_date_lt ) .
+		BIND (fx:entity( "http://transport.linkeddata.es/madrid/metro/feed/", ?feed_publisher_name) AS ?feed_publisher_name_iri ) .
+	}
+
+	# shapes, shapes_points
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/SHAPES.%format,%param,slice=%slice,strategy=%strategy> {
+		[] xyz:shape_id ?shape_id ; xyz:shape_pt_sequence ?shape_pt_sequence ; xyz:shape_pt_lat ?shape_pt_lat ; xyz:shape_pt_lon ?shape_pt_lon ; xyz:shape_dist_traveled ?shape_dist_traveled .
+		BIND ( fx:entity( "http://transport.linkeddata.es/madrid/metro/shape_point/", ?shape_id ,"-", ?shape_pt_sequence ) AS ?shape_pt_iri )
+		BIND ( xsd:double(?shape_pt_lat) AS ?shape_pt_lat_lt ) .
+		BIND ( xsd:double(?shape_pt_lon) AS ?shape_pt_lon_lt ) .
+	}
+
+	# frequencies
+	SERVICE <x-sparql-anything:location=../result/datasets/%format/%size/FREQUENCIES.%format,%param,slice=%slice,strategy=%strategy> {
+		[] xyz:trip_id ?trip_id ; xyz:start_time ?start_time ; xyz:end_time ?end_time ; xyz:headway_secs ?headway_secs ; xyz:exact_times ?exact_times .
+		BIND (xsd:integer(?headway_secs) AS ?headway_secs_lt ) .
+		BIND (xsd:boolean(?exact_times) AS ?exact_times_lt ) .
+		BIND ( fx:entity("http://transport.linkeddata.es/madrid/metro/frequency/",?trip_id,"-",?start_time ) AS ?trip_frequency_iri ) .
+	}
+}
