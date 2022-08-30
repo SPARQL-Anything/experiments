@@ -16,7 +16,7 @@
 # limitations under the License.
 #
 
-declare -a mem=( "32768" "16384" "4096" "1024" "512" "256" )
+declare -a mem=( "32768" "16384" "8192" "4096" "1024" "512" "256" )
 
 
 function errcho {
