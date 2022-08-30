@@ -29,12 +29,12 @@ At the moment only csv, json and xml formats are allowed.
 
 ```
 
-4. Clone download the latest [release of the SPARQL Anything](https://github.com/SPARQL-Anything/sparql.anything/releases) (e.g. sparql-anything-0.6.0.jar)
+4. Download the latest [release of the SPARQL Anything](https://github.com/SPARQL-Anything/sparql.anything/releases) (e.g. sparql-anything-0.6.0.jar)
 
 5. Run the queries
 
 ```
 
-./execute_queries.sh sparql-anything-0.6.0.jar "1 10 100" "csv json"
+./execute_queries.sh sparql-anything-0.6.0.jar "1 10 100" "csv json" "RESULTS_FOLDER" "TMP_FOLDER"
 
 ```
