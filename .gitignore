@@ -16,5 +16,6 @@ gtfs/.idea/
 gtfs/aggr*
 gtfs/old_*
 gtfs/summary*
+gtfs/*experiment*
 *measures*
 *test*
