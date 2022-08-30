@@ -27,7 +27,10 @@ fi
 
 source functions.sh
 
-monitor-query 1 "q1" "strategy0" "no_slice" "json" "ondisk"
+
+monitor-query 1 "q15" "strategy0" "slice" "json" "ondisk"
+
+#monitor-query 1 "q1" "strategy0" "no_slice" "json" "ondisk"
 
 #monitor-query 1 "q1" "strategy1" "slice" "csv"
 #monitor-query 1 "q2" "strategy1" "slice" "csv"
