@@ -30,6 +30,7 @@ function monitor-query {
   SLICE=$4
   QUERY=$2
   FORMAT=$5
+  TMP_FOLDER=$6
   if [ -z ${6+x} ]; then
     QUERY_FILE=$2-${FORMAT}-${STRATEGY}-${SLICE}.sparql
     ON_DISK="False"
@@ -115,6 +116,9 @@ function monitor-query {
           break
         fi
 
+        if [[ $ON_DISK == "True" ]]; then
+          rm -rf $TMP_FOLDER/*
+        fi
 
   	done
     AVG="$QUERY\t$1\t$STRATEGY\t$SLICE\t$mm\tAVERAGE\t$(($total/RUN_CNT))\tms"

@@ -18,6 +18,7 @@
 
 SPARQL_ANYTHING_JAR=$1
 RESULTS_DIR=$(pwd)/$2
+TMP_FOLDER=$3
 
 if [ ! -d $RESULTS_DIR ]; then
   mkdir $RESULTS_DIR
@@ -28,7 +29,7 @@ fi
 source functions.sh
 
 
-monitor-query 1 "q15" "strategy0" "slice" "json" "ondisk"
+monitor-query 1 "q15" "strategy1" "no_slice" "json" $TMP_FOLDER
 
 #monitor-query 1 "q1" "strategy0" "no_slice" "json" "ondisk"
 

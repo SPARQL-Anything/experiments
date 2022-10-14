@@ -52,22 +52,21 @@ do
       monitor-query $size "q$query" "strategy0" "no_slice" $format
       echo "Monitoring q$query strategy1 no_slice size $size $format"
       monitor-query $size "q$query" "strategy1" "no_slice" $format
-      echo "Monitoring q$query strategy0 slice size $size $format"
-      monitor-query $size "q$query" "strategy0" "slice" $format
+      # echo "Monitoring q$query strategy0 slice size $size $format"
+      # monitor-query $size "q$query" "strategy0" "slice" $format
       echo "Monitoring q$query strategy1 slice size $size $format"
       monitor-query $size "q$query" "strategy1" "slice" $format
 
       # ON_DISK
-      echo "Monitoring q$query strategy0 no_slice size $size $format ondisk"
-      monitor-query $size "q$query" "strategy0" "no_slice" $format "ondisk"
+      # echo "Monitoring q$query strategy0 no_slice size $size $format ondisk"
+      # monitor-query $size "q$query" "strategy0" "no_slice" $format "ondisk"
       echo "Monitoring q$query strategy1 no_slice size $size $format ondisk"
-      monitor-query $size "q$query" "strategy1" "no_slice" $format "ondisk"
-      echo "Monitoring q$query strategy0 slice size $size $format ondisk"
-      monitor-query $size "q$query" "strategy0" "slice" $format "ondisk"
-      echo "Monitoring q$query strategy1 slice size $size $format ondisk"
-      monitor-query $size "q$query" "strategy1" "slice" $format "ondisk"
+      monitor-query $size "q$query" "strategy1" "no_slice" $format $TMP_FOLDER
+      # echo "Monitoring q$query strategy0 slice size $size $format ondisk"
+      # monitor-query $size "q$query" "strategy0" "slice" $format "ondisk"
+      # echo "Monitoring q$query strategy1 slice size $size $format ondisk"
+      # monitor-query $size "q$query" "strategy1" "slice" $format "ondisk"
 
-      rm -rf $TMP_FOLDER
     done
   done
 done
