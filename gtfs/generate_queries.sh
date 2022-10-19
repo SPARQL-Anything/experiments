@@ -91,7 +91,7 @@ do
 
   ## CSV ON DISK
   # sed -e "s/%size/$size/g" -e "s/%strategy/0/g" -e "s/%slice/false/g" -e "s/%format/json/g" -e "s~%param~blank-nodes=true,ondisk=${TMP_FOLDER}~g" $QUERY_TEMPLATE_FILE > $size/"c$query-csv-strategy0-no_slice-ondisk.sparql"
-  sed -e "s/%size/$size/g" -e "s/%strategy/1/g" -e "s/%slice/false/g" -e "s/%format/json/g" -e "s~%param~blank-nodes=true,ondisk=${TMP_FOLDER}~g"  $QUERY_TEMPLATE_FILE > $size/"c$query-csv-strategy1-no_slice-ondisk.sparql"
+  sed -e "s/%size/$size/g" -e "s/%strategy/1/g" -e "s/%slice/false/g" -e "s/%format/json/g" -e "s~%param~blank-nodes=true,ondisk=${TMP_FOLDER}/c$query-csv-strategy1-no_slice-ondisk~g"  $QUERY_TEMPLATE_FILE > $size/"c$query-csv-strategy1-no_slice-ondisk.sparql"
   # sed -e "s/%size/$size/g" -e "s/%strategy/0/g" -e "s/%slice/true/g" -e "s/%format/json/g" -e "s~%param~blank-nodes=true,ondisk=${TMP_FOLDER}~g"  $QUERY_TEMPLATE_FILE > $size/"c$query-csv-strategy0-slice-ondisk.sparql"
   # sed -e "s/%size/$size/g" -e "s/%strategy/1/g" -e "s/%slice/true/g" -e "s/%format/json/g" -e "s~%param~blank-nodes=true,ondisk=${TMP_FOLDER}~g"  $QUERY_TEMPLATE_FILE > $size/"c$query-csv-strategy1-slice-ondisk.sparql"
 
@@ -103,7 +103,7 @@ do
 
   ## JSON ON DISK
   # sed -e "s/%size/$size/g" -e "s/%strategy/0/g" -e "s/%slice/false/g" -e "s/%format/json/g" -e "s~%param~blank-nodes=true,ondisk=${TMP_FOLDER}~g" $QUERY_TEMPLATE_FILE > $size/"c$query-json-strategy0-no_slice-ondisk.sparql"
-  sed -e "s/%size/$size/g" -e "s/%strategy/1/g" -e "s/%slice/false/g" -e "s/%format/json/g" -e "s~%param~blank-nodes=true,ondisk=${TMP_FOLDER}~g"  $QUERY_TEMPLATE_FILE > $size/"c$query-json-strategy1-no_slice-ondisk.sparql"
+  sed -e "s/%size/$size/g" -e "s/%strategy/1/g" -e "s/%slice/false/g" -e "s/%format/json/g" -e "s~%param~blank-nodes=true,ondisk=${TMP_FOLDER}/c$query-json-strategy1-no_slice-ondisk~g"  $QUERY_TEMPLATE_FILE > $size/"c$query-json-strategy1-no_slice-ondisk.sparql"
   # sed -e "s/%size/$size/g" -e "s/%strategy/0/g" -e "s/%slice/true/g" -e "s/%format/json/g" -e "s~%param~blank-nodes=true,ondisk=${TMP_FOLDER}~g"  $QUERY_TEMPLATE_FILE > $size/"c$query-json-strategy0-slice-ondisk.sparql"
   # sed -e "s/%size/$size/g" -e "s/%strategy/1/g" -e "s/%slice/true/g" -e "s/%format/json/g" -e "s~%param~blank-nodes=true,ondisk=${TMP_FOLDER}~g"  $QUERY_TEMPLATE_FILE > $size/"c$query-json-strategy1-slice-ondisk.sparql"
 
