@@ -118,25 +118,7 @@ function monitor-query {
       fi
 
     done
-    AVG="$QUERY\t$1\t$STRATEGY\t$SLICE\t$mm\tAVERAGE\t$(($total / RUN_CNT))\tms"
 
-    echo -e $AVG >>$TIME_FILE
-    echo -e $AVG
-
-    if [[ "$(cat ERR_FILE)" == *"Timeout"* ]]; then
-      AVG+="\tKilledForTimeout"
-      break
-    fi
-
-    if [[ "$(cat ERR_FILE)" == *"OutOfMemoryError"* ]]; then
-      AVG+="\tKilledForOutOfMemory"
-      break
-    fi
-
-    if [[ "$(cat ERR_FILE)" == *"Exception"* ]]; then
-      AVG+="\tKilledForException"
-      break
-    fi
 
   done
 
@@ -305,26 +287,6 @@ function monitor-construct-query {
       fi
 
     done
-
-    AVG="$QUERY\t$1\t$STRATEGY\t$SLICE\t$mm\tAVERAGE\t$(($total / RUN_CNT))\tms"
-
-    echo -e $AVG >>$TIME_FILE
-    echo -e $AVG
-
-    if [[ "$(cat ERR_FILE)" == *"Timeout"* ]]; then
-      AVG+="\tKilledForTimeout"
-      break
-    fi
-
-    if [[ "$(cat ERR_FILE)" == *"OutOfMemoryError"* ]]; then
-      AVG+="\tKilledForOutOfMemory"
-      break
-    fi
-
-    if [[ "$(cat ERR_FILE)" == *"Exception"* ]]; then
-      AVG+="\tKilledForException"
-      break
-    fi
 
   done
 
