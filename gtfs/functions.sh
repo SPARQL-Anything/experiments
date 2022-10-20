@@ -69,7 +69,7 @@ function monitor-query {
       java $memory -jar $SPARQL_ANYTHING_JAR -q $QUERY_FILE 2>>ERR_FILE >/dev/null &
       MPID=$!
       while kill -0 $MPID 2>/dev/null; do
-        MEM_RECORDS+="$QUERY $1 $STRATEGY $SLICE $mm RUN$i $(ps -p $MPID -o pid,%cpu,%mem,vsz,rss | sed 1d)\n"
+        MEM_RECORDS+="$QUERY $1 $STRATEGY $SLICE $ON_DISK $mm RUN$i $(ps -p $MPID -o pid,%cpu,%mem,vsz,rss | sed 1d)\n"
         CNT=$((CNT + 1))
         if [[ "$CNT" -eq 1500 ]]; then
           echo "Error: Timeout 300s" >>ERR_FILE
@@ -256,7 +256,7 @@ function monitor-construct-query {
       java $memory -jar $SPARQL_ANYTHING_JAR -q $QUERY_FILE -o $OUT_FILE -f NT 2>>ERR_FILE >/dev/null &
       MPID=$!
       while kill -0 $MPID 2>/dev/null; do
-        MEM_RECORDS+="$QUERY $1 $STRATEGY $SLICE $mm RUN$i $(ps -p $MPID -o pid,%cpu,%mem,vsz,rss | sed 1d)\n"
+        MEM_RECORDS+="$QUERY $1 $STRATEGY $SLICE $ON_DISK $mm RUN$i $(ps -p $MPID -o pid,%cpu,%mem,vsz,rss | sed 1d)\n"
         CNT=$((CNT + 1))
         if [[ "$CNT" -eq 1500 ]]; then
           echo "Error: Timeout 300s" >>ERR_FILE
