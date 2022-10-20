@@ -15,8 +15,6 @@
 # limitations under the License.
 #
 
-# ./execute_queries.sh /Users/lgu/workspace/SPARQLAnything/sparql.anything/sparql-anything-cli/target/sparql-anything-0.8.0-SNAPSHOT.jar "1" "json" "test" <TMP_FOLDER>
-
 SPARQL_ANYTHING_JAR=$1
 RESULTS_DIR=$(pwd)/$4
 TMP_FOLDER=$5
@@ -30,7 +28,8 @@ fi
 if [ ! -d $TMP_FOLDER ]; then
   mkdir $TMP_FOLDER
 else
-  echo "$TMP_FOLDER alredy exists!"
+  echo "$TMP_FOLDER alredy exists! Cleaning it.."
+  rm -rf $TMP_FOLDER/*
 fi
 
 source functions.sh
@@ -48,35 +47,18 @@ do
   do
     for query in $QUERIES_TO_EXECUTE
     do
+
       echo "Monitoring q$query strategy0 no_slice size $size $format"
       monitor-query $size "q$query" "strategy0" "no_slice" $format
       echo "Monitoring q$query strategy1 no_slice size $size $format"
       monitor-query $size "q$query" "strategy1" "no_slice" $format
-      # echo "Monitoring q$query strategy0 slice size $size $format"
-      # monitor-query $size "q$query" "strategy0" "slice" $format
       echo "Monitoring q$query strategy1 slice size $size $format"
       monitor-query $size "q$query" "strategy1" "slice" $format
 
       # ON_DISK
-      # echo "Monitoring q$query strategy0 no_slice size $size $format ondisk"
-      # monitor-query $size "q$query" "strategy0" "no_slice" $format "ondisk"
       echo "Monitoring q$query strategy1 no_slice size $size $format ondisk"
       monitor-query $size "q$query" "strategy1" "no_slice" $format $TMP_FOLDER
-      # echo "Monitoring q$query strategy0 slice size $size $format ondisk"
-      # monitor-query $size "q$query" "strategy0" "slice" $format "ondisk"
-      # echo "Monitoring q$query strategy1 slice size $size $format ondisk"
-      # monitor-query $size "q$query" "strategy1" "slice" $format "ondisk"
 
     done
   done
 done
-
-
-
-
-
-
-#cd $SPARQL_ANYTHING_QUERY_FOLDER
-
-#java -jar $SPARQL_ANYTHING_JAR -q q1.sparql > /dev/null
-#java -jar /Users/lgu/workspace/spice/sparql.anything/sparql-anything-cli/target/sparql-anything-0.7.0-SNAPSHOT.jar -q
