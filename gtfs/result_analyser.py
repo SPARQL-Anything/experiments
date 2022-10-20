@@ -41,11 +41,9 @@ configurations = [
     {"slice": "slice", "strategy": "strategy1", "ondisk": False},
     {"slice": "no_slice", "strategy": "strategy1", "ondisk": True}
 ]
-strategies = ["strategy0", "strategy1"]
-slice = ["no_slice", "slice"]
 memory_limits = [256, 512, 1024, 4096, 8192, 16384, 32768]
 format = "csv"
-experiment_folder = "/Users/lgu/workspace/SPARQLAnything/CogComplexityAndPerformaceEvaluation/gtfs/202210015-experiment_csv_1_10_100_1000/"
+experiment_folder = "/Users/lgu/workspace/SPARQLAnything/CogComplexityAndPerformaceEvaluation/gtfs/swj_experiments/202210015-experiment_csv_1_10_100_1000/"
 out_folder = f"{experiment_folder}summary_{format}"
 
 if not os.path.exists(out_folder):
@@ -110,7 +108,8 @@ for input_size in input_sizes:
 
             records_time_per_size.append(record_per_size)
 
-    pd.DataFrame(records_time_per_size).to_csv(f"{out_folder}/aggr_time_{input_size}_{format}.tsv", sep='\t', index=False,
+    pd.DataFrame(records_time_per_size).to_csv(f"{out_folder}/aggr_time_{input_size}_{format}.tsv", sep='\t',
+                                               index=False,
                                                header=False)
 
 pd.DataFrame(records_summary_time).to_csv(f"{out_folder}/summary_{format}.tsv", sep='\t', index=False, header=False)
