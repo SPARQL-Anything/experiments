@@ -42,8 +42,8 @@ configurations = [
     {"slice": "no_slice", "strategy": "strategy1", "ondisk": True}
 ]
 memory_limits = [256, 512, 1024, 4096, 8192, 16384, 32768]
-format = "csv"
-experiment_folder = "/Users/lgu/workspace/SPARQLAnything/CogComplexityAndPerformaceEvaluation/gtfs/swj_experiments/202210015-experiment_csv_1_10_100_1000/"
+format = "json"
+experiment_folder = "/Users/lgu/workspace/SPARQLAnything/CogComplexityAndPerformaceEvaluation/gtfs/swj_experiments/202210014-experiment_json_1_10_100_1000/"
 out_folder = f"{experiment_folder}summary_{format}"
 
 if not os.path.exists(out_folder):
@@ -103,7 +103,7 @@ for input_size in input_sizes:
 
                 record_per_size.append(get_status_string(list(r[r["STDErr"].notna()]["STDErr"])))
 
-                record_summary_time.extend(get_status_list(list(r[r["STDErr"].notna()]["STDErr"])))
+                record_summary_time.extend(get_status_list(list(r[r["STDErr"].notna()]["STDErr"]))[:3])
                 records_summary_time.append(record_summary_time)
 
             records_time_per_size.append(record_per_size)
