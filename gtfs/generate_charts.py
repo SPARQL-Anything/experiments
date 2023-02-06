@@ -9,13 +9,13 @@ input_sizes = [1, 10, 100, 1000]
 
 configurations = [
     {"slice": "no_slice", "strategy": "strategy0", "ondisk": False,
-     "description": "in-memory w/o triple filtering w/o slicing"},
+     "description": "in-memory+complete"},
     {"slice": "no_slice", "strategy": "strategy1", "ondisk": False,
-     "description": "in-memory with triple filtering w/o slicing"},
+     "description": "in-memory+triple-filtering"},
     {"slice": "slice", "strategy": "strategy1", "ondisk": False,
-     "description": "in-memory with triple filtering with slicing"},
+     "description": "sliced+triple-filtering"},
     {"slice": "no_slice", "strategy": "strategy1", "ondisk": True,
-     "description": "on-disk with triple filtering w/o slicing"}
+     "description": "on-disk+triple-filtering"}
 ]
 
 memory_limits = [256, 512, 1024, 4096, 8192, 16384, 32768]
